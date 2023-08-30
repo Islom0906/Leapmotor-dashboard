@@ -26,8 +26,8 @@ const JWTAuthAuthProvider = ({children}) => {
 
   useEffect(() => {
     const getAuthUser = () => {
-      const token = localStorage.getItem('token');
-
+      const token = localStorage.getItem('lptoken');
+      console.log(token)
       if (!token) {
         setJWTAuthData({
           user: undefined,
@@ -44,7 +44,7 @@ const JWTAuthAuthProvider = ({children}) => {
       }
       setAuthToken(token);
       jwtAxios
-        .get('/GetAuthorize')
+        .get('/user/me')
         .then(({data}) =>
           setJWTAuthData({
             user: data,
@@ -64,13 +64,12 @@ const JWTAuthAuthProvider = ({children}) => {
     getAuthUser();
   }, []);
 
-  const signInUser = async ({userName, password}) => {
-    console.log(userName,password)
+  const signInUser = async ({email, password}) => {
+    console.log(email,password)
     dispatch({type: FETCH_START});
     try {
-      const {data} = await jwtAxios.post(`/Authorizee/login?userName=${userName}&password=${password}`);
-      console.log(data)
-      localStorage.setItem('token', data);
+      const {data} = await jwtAxios.post(`/auth`,{email, password});
+      localStorage.setItem('lptoken', data.token);
       // setAuthToken(data);
       // const res = await jwtAxios.get('/auth');
       setJWTAuthData({user: undefined, isAuthenticated: true, isLoading: false});

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const jwtAxios = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api`, //YOUR_API_URL HERE
+  baseURL: `${process.env.REACT_APP_API_URL}/`, //YOUR_API_URL HERE
   // headers: {
   //   'Content-Type': 'application/json',
   // },
@@ -17,9 +17,10 @@ jwtAxios.interceptors.response.use(
   },
 );
 export const setAuthToken = (token) => {
+    console.log(token)
   if (token) {
-    jwtAxios.defaults.headers.common['authorization'] = `Bearer ${token}`;
-    localStorage.setItem('token', token);
+    jwtAxios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    localStorage.setItem('lptoken', token);
   } else {
     delete jwtAxios.defaults.headers.common['authorization'];
     localStorage.removeItem('token');

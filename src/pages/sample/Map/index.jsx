@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import CategoryTable from './CategoryTable';
+import MapTable from './MapTable';
 import {Button, Col, Input, message, Row, Space, Spin} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
@@ -20,7 +20,7 @@ const Index = () => {
     data,
     isLoading: getCategoryLoading,
     refetch,
-  } = useQuery('category-get', () => apiService.getData('/ProductType'), {
+  } = useQuery('category-get', () => apiService.getData('/map'), {
     // enabled:false,
     onError: (error) => {
       const err = [];
@@ -33,6 +33,7 @@ const Index = () => {
       // Handle the error
     },
   });
+  console.log(data)
   const [search, setSearch] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
   const deleteHandle = (url, id) => {
@@ -47,7 +48,7 @@ const Index = () => {
 
   const addArticle = () => {
     dispatch({type: EDIT_DATA, payload: ''});
-    navigate('/category/add');
+    navigate('/map/add');
   };
   const serachProduct = (value) => {
     if (value === '') {
@@ -84,7 +85,7 @@ const Index = () => {
         <Spin
           size='medium'
           spinning={getCategoryLoading || deleteCategoryLoading}>
-          <CategoryTable
+          <MapTable
             data={isSearch ? search : data}
             deleteHandle={deleteHandle}
           />

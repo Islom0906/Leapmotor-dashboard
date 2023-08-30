@@ -342,7 +342,7 @@ const PostEditBanner = () => {
               span: 24,
             }}
             rules={[
-              {required: true, message: 'Please selected your Category'},
+              {required: true, message: 'Please selected your Map'},
             ]}>
             <Select
               style={{

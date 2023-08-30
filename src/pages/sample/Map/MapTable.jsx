@@ -1,4 +1,4 @@
-import { Button,  Popconfirm, Space, Table,Image } from "antd";
+import { Button,  Popconfirm, Space, Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
@@ -6,13 +6,11 @@ import {EDIT_DATA} from "../../../shared/constants/ActionTypes";
 import {useNavigate} from "react-router-dom";
 import { useEffect, useState } from "react";
 
-
-
-const ProductTable = ({data,deleteHandle}) => {
+const MapTable = ({data,deleteHandle}) => {
     const dispatch=useDispatch()
     const navigate =useNavigate()
     const Delete = async (id) => {
-        deleteHandle('/Product',id)
+        deleteHandle('/ProductType',id)
     };
 
     const [reverseData,setReverseData]=useState([])
@@ -20,24 +18,14 @@ const ProductTable = ({data,deleteHandle}) => {
     const Edit = (id) => {
         localStorage.setItem('editDataId',id)
         dispatch({type:EDIT_DATA,payload:id})
-        navigate('/product/add')
-    };4
-    
+        navigate('/category/add')
+    };
 
     useEffect(()=>{
         const reverse=data?.reverse()
         setReverseData(reverse)
     },[data])
-
-
-
     const columns = [
-        {
-            title: 'Name En',
-            dataIndex: 'nameEg',
-            id: 'nameEg',
-            render: (text) => <p>{text}</p>,
-        },
         {
             title: 'Name Ru',
             dataIndex: 'nameRu',
@@ -45,24 +33,22 @@ const ProductTable = ({data,deleteHandle}) => {
             render: (text) => <p>{text}</p>,
         },
         {
-            title: 'Price',
-            dataIndex: 'price',
-            id: 'price',
+            title: 'Name Uz',
+            dataIndex: 'nameUz',
+            id: 'nameRu',
             render: (text) => <p>{text}</p>,
         },
-    
         {
-            title: 'Image',
-            dataIndex: 'image',
-            id: 'image',
-            render: (image) => {
-                return (
-                    <Image
-                        width={50}
-    
-                        src={`${process.env.REACT_APP_API_URL}/${image?.name}`}
-                    />
-                )},
+            title: 'Working Time',
+            dataIndex: 'workingTime',
+            id: 'workingTime',
+            render: (text) => <p>{text}</p>,
+        },
+        {
+            title: 'Tel',
+            dataIndex: 'tel',
+            id: 'tel',
+            render: (text) => <p>{text}</p>,
         },
         {
             title: 'Action',
@@ -78,7 +64,7 @@ const ProductTable = ({data,deleteHandle}) => {
                     <Popconfirm
                         title={'Are you sure to delete this task?'}
                         description={'Delete the task '}
-                        onConfirm={() => Delete(record.id)}>
+                        onConfirm={() => Delete(record._id)}>
                         <Button type='danger' icon={<DeleteOutlined />}>
                             Delete
                         </Button>
@@ -87,7 +73,6 @@ const ProductTable = ({data,deleteHandle}) => {
             ),
         },
     ];
-   
 
     return (
         <div>
@@ -100,9 +85,9 @@ const ProductTable = ({data,deleteHandle}) => {
     );
 };
 
-ProductTable.propTypes={
+MapTable.propTypes={
     data:PropTypes.array,
     deleteHandle:PropTypes.func
 }
 
-export default ProductTable;
+export default MapTable;

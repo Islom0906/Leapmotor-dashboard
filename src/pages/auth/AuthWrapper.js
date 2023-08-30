@@ -24,7 +24,7 @@ const AuthWrapper = ({children}) => {
           </div>
           <div className='auth-wel-action'>
             <div className='auth-wel-content'>
-              <h2>Welcome to Tashkent Market</h2>
+              <h2>Welcome to Leapmotorca</h2>
               
             </div>
           </div>
