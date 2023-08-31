@@ -30,12 +30,12 @@ const routesConfig = [
         path: '/map',
       },
       {
-        id: 'banner',
-        title: 'Banner',
-        messageId: 'sidebar.sample.banner',
+        id: 'product',
+        title: 'Product',
+        messageId: 'sidebar.sample.product',
         type: 'item',
         icon: <BsFillImageFill />,
-        path: '/banner',
+        path: '/product',
       },
       {
         id: 'orders',

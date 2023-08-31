@@ -10,7 +10,7 @@ const MapTable = ({data,deleteHandle}) => {
     const dispatch=useDispatch()
     const navigate =useNavigate()
     const Delete = async (id) => {
-        deleteHandle('/ProductType',id)
+        deleteHandle('/map',id)
     };
 
     const [reverseData,setReverseData]=useState([])
@@ -18,7 +18,7 @@ const MapTable = ({data,deleteHandle}) => {
     const Edit = (id) => {
         localStorage.setItem('editDataId',id)
         dispatch({type:EDIT_DATA,payload:id})
-        navigate('/category/add')
+        navigate('/map/add')
     };
 
     useEffect(()=>{
@@ -56,7 +56,7 @@ const MapTable = ({data,deleteHandle}) => {
             render: (_, record) => (
                 <Space size={20}>
                     <Button
-                        onClick={() => Edit(record.id)}
+                        onClick={() => Edit(record._id)}
                         type='primary'
                         icon={<EditOutlined />}>
                         Edit
@@ -79,7 +79,7 @@ const MapTable = ({data,deleteHandle}) => {
             <Table
                 columns={columns}
                 dataSource={reverseData}
-                rowKey={(record) => record.id}
+                rowKey={(record) => record._id}
             />
         </div>
     );

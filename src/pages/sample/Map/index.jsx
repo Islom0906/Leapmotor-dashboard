@@ -20,16 +20,11 @@ const Index = () => {
     data,
     isLoading: getCategoryLoading,
     refetch,
-  } = useQuery('category-get', () => apiService.getData('/map'), {
+  } = useQuery('map-get', () => apiService.getData('/map'), {
     // enabled:false,
     onError: (error) => {
-      const err = [];
 
-      for (const property in error?.response?.data?.errors) {
-        err.push(error?.response?.data?.errors[property]);
-      }
-
-      message.error(err[0][0]);
+      message.error(error);
       // Handle the error
     },
   });
@@ -59,8 +54,8 @@ const Index = () => {
 
     const filterData = data?.filter(
       (data) =>
-        data.nameEg.toLowerCase().includes(value.toLowerCase()) ||
-        data.nameRu.toLowerCase().includes(value.toLowerCase()),
+        data.nameRu.toLowerCase().includes(value.toLowerCase()) ||
+        data.nameUz.toLowerCase().includes(value.toLowerCase()),
     );
     setSearch(filterData);
   };

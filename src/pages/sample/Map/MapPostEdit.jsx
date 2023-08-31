@@ -15,7 +15,7 @@ const initialValueForm = {
     addressUz:"",
     workingTime:"",
     tel:"",
-    latLng:""
+    lat:""
 };
 
 
@@ -34,6 +34,7 @@ const MapPostEdit = () => {
 
 
     const [latLng, setlatLng] = useState({lat:null,lng:null});
+    console.log(latLng)
     // query-map
     const {
         mutate: postMapMutate,
@@ -42,7 +43,16 @@ const MapPostEdit = () => {
         isSuccess: postMapSuccess,
         error: postMapError,
         isError: postMapIsError
-    } = useMutation(({url, data}) => apiService.postData(url, data));
+    } = useMutation(({url, data}) => apiService.postData(url, data),{
+        onSuccess:()=>{
+
+            message.success('Success')
+        },
+        onError:(error)=>{
+
+            message.error(error)
+        }
+    });
 
     // query-edit
     const {
@@ -52,7 +62,7 @@ const MapPostEdit = () => {
         isSuccess: editMapSuccess,
         error:putMapError,
         isError:putMapIsError
-    } = useQuery(["edit-map", editId], () => apiService.getDataByID("/ProductType", editId), {
+    } = useQuery(["edit-map", editId], () => apiService.getDataByID("/map", editId), {
         enabled: false
     });
     // put-query
@@ -118,9 +128,9 @@ const MapPostEdit = () => {
             addressUz:editMapData.addressUz,
             workingTime:editMapData.workingTime,
             tel:editMapData.tel,
-            latLng:editMapData.lat
+            lat:editMapData.lat
         }
-        setlatLng({lat:editMapData.lat,lng:editMapData.lng})
+        setlatLng({lat:Number(editMapData.lat),lng:Number(editMapData.lng)})
             form.setFieldsValue(edit)
         }
 
@@ -185,7 +195,7 @@ const MapPostEdit = () => {
             lng: event?.latLng.lng(),
         };
         setlatLng(clickedLatLng)
-        form.setFieldsValue({latLng:clickedLatLng.lat})
+        form.setFieldsValue({lat:clickedLatLng.lat})
         console.log('Clicked LatLng:', clickedLatLng);
     };
     const mapStyles = {
@@ -320,31 +330,32 @@ const MapPostEdit = () => {
                     </Row>
                     <Row gutter={20}>
                         <Col span={24}>
-                            {/*<Form.Item*/}
-                            {/*    label="Карта"*/}
-                            {/*    name="latLng"*/}
-                            {/*    rules={[*/}
-                            {/*        {*/}
-                            {/*            required: true,*/}
-                            {/*            message: "Разметка карты обязательна"*/}
-                            {/*        }*/}
-                            {/*    ]}*/}
-                            {/*>*/}
-
                             {
                                 isLoaded &&
 
-                                    <GoogleMap
-                                        mapContainerStyle={mapStyles}
-                                        zoom={12}
-                                        center={defaultCenter}
-                                        onClick={handleMapClick}
-                                    >
-                                        <MarkerF position={latLng}/>
-                                    </GoogleMap>
+                                <GoogleMap
+                                    mapContainerStyle={mapStyles}
+                                    zoom={12}
+                                    center={defaultCenter}
+                                    onClick={handleMapClick}
+                                >
+                                    <MarkerF position={latLng}/>
+                                </GoogleMap>
                             }
+                            <Form.Item
+                                label=""
+                                name="lat"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Разметка карты обязательна"
+                                    }
+                                ]}
+                            >
 
-                            {/*</Form.Item>*/}
+
+
+                            </Form.Item>
 
 
                         </Col>
