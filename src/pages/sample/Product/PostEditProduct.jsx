@@ -30,7 +30,6 @@ const PostEditProduct = () => {
   const [isNotEditImages, setIsNotEditImages] = useState(false);
   const [deleteImage, setDeleteImage] = useState({});
   const [deleteImage2, setDeleteImage2] = useState({});
-  console.log(deleteImage2)
   // query-banner
   const {
     mutate: postBannerMutate,
@@ -39,15 +38,23 @@ const PostEditProduct = () => {
     isSuccess: postBannerSuccess,
     error: postBannerError,
     isError: postBannerIsError,
-  } = useMutation(({url, data}) => apiService.postData(url, data));
+  } = useMutation(({url, data}) => apiService.postData(url, data),
+      {
+        onSuccess: () => message.success('Success'),
+        onError: (error) => message.error(error.message)
+      });
   // query-image
   const {
     mutate: imagesUploadMutate,
     data: imagesUpload,
     isLoading: imagesUploadLoading,
     isSuccess: imagesUploadSuccess,
-  } = useMutation(({url, formData}) => apiService.postData(url, formData));
+  } = useMutation(({url, formData}) => apiService.postData(url, formData),{
+
+    onError: (error) => message.error(error.message)
+  });
   // query-edit
+
   const {
     isLoading: editBannerLoading,
     data: editProductData,
@@ -68,23 +75,35 @@ const PostEditProduct = () => {
     isSuccess: putBannerSuccess,
     error: putBannerError,
     isError: putBannerIsError,
-  } = useMutation(({url, data, id}) => apiService.editData(url, data, id));
+  } = useMutation(({url, data, id}) => apiService.editData(url, data, id),{
+    onError: (error) => message.error(error.message)
+  });
   // delete-image-query
-  const {mutate: imagesDeleteMutate} = useMutation(({url, id}) =>
-    apiService.deleteData(url, id),
+  const {mutate: imagesDeleteMutate} = useMutation(({url, ids}) => apiService.deleteImages(url, ids),{
+    onSuccess: () => message.success('Success'),
+    onError: (error) => message.error(error.message)
+      }
   );
 
   // product success
   useEffect(() => {
+    let delImage=[]
     if (putBannerSuccess) {
       dispatch({type: EDIT_DATA, payload: ''});
     }
     if (editProductSuccess && deleteImage?.uid) {
-      imagesDeleteMutate({url: '/medias', id: deleteImage?.uid});
+      delImage.push(deleteImage?.uid)
     }
     if (editProductSuccess && deleteImage2?.uid) {
-      imagesDeleteMutate({url: '/medias', id: deleteImage?.uid});
+      delImage.push(deleteImage2?.uid)
     }
+    if (editProductSuccess && (deleteImage?.uid || deleteImage2?.uid)) {
+      const ids={
+        ids:delImage
+      }
+      imagesDeleteMutate({url: '/medias', ids});
+    }
+
     if (postBannerSuccess || putBannerSuccess) {
      
       navigate('/product');
@@ -151,20 +170,17 @@ const PostEditProduct = () => {
   useEffect(() => {
     let imageLogo=""
     let imageBanner=""
-    if (editProductSuccess && fileListProps[0]?.originFileObj?.uid) {
+    if (editProductSuccess && imagesUploadSuccess && fileListProps[0]?.originFileObj?.uid) {
       imageLogo = imagesUpload[0]?._id;
     } else if (editProductSuccess) {
       imageLogo = fileListProps[0]?.uid;
-      console.log(imageLogo)
     }
-    if (editProductSuccess && fileListProps2[0]?.originFileObj?.uid) {
-      imageBanner = imagesUpload[1]?._id;
+    if (editProductSuccess && imagesUploadSuccess && fileListProps2[0]?.originFileObj?.uid) {
+      imageBanner = imagesUpload.length===2 ? imagesUpload[1]?._id : imagesUpload[0]?._id;
     } else if (editProductSuccess) {
       imageBanner = fileListProps2[0]?.uid;
-      console.log(imageBanner)
     }
-    console.log({imageLogo,imageBanner})
-    if (imagesUpload){
+    if (!editProductSuccess && imagesUpload){
       imageLogo=imagesUpload[0]?._id
       imageBanner=imagesUpload[1]?._id
     }
@@ -172,8 +188,8 @@ const PostEditProduct = () => {
       textRu: valuesForm.textRu,
       textUz: valuesForm.textUz,
       model:valuesForm.model,
-      mediaLogoId: editProductSuccess ? imageLogo : imageLogo,
-      mediaBannerId: editProductSuccess ? imageBanner : imageBanner
+      mediaLogoId: imageLogo,
+      mediaBannerId:imageBanner
     };
 
     if (imagesUploadSuccess && !editProductSuccess) {

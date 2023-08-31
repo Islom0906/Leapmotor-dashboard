@@ -22,15 +22,18 @@ const apiService = {
     // malutmotni edit qilish uchun url,id va yaratilgan malumot beriladi
     // url / boshlansin yani /edu shunga oxshagan
     async editData(url, formData, id) {
-        console.log(url,formData,id)
         const {data}= await axios.put(`${url}/${id}`, formData)
         return data
     },
     // malutmotni delete qilish uchun url va id  beriladi
     // url / boshlansin yani /edu shunga oxshagan
     async deleteData(url, id) {
-        console.log(url,id);
         await axios.delete(`${url}/${id}`);
+    },
+
+    async deleteImages(url, ids) {
+        console.log('delete image',ids)
+        await axios.delete(url, {id:"Mavjud"});
     },
 };
 export default apiService;
