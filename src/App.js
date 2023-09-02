@@ -15,6 +15,7 @@ import './@crema/services/index';
 import {QueryClient, QueryClientProvider} from "react-query";
 // import {ReactQueryDevtools} from "react-query/devtools";
 import JWTAuthAuthProvider from "./@crema/services/auth/jwt-auth/JWTAuthProvider";
+import {ReactQueryDevtools} from "react-query/devtools";
 
 const store = configureStore();
 const queryCLient = new QueryClient()
@@ -35,7 +36,7 @@ const App = () => (
                 </AppThemeProvider>
             </Provider>
         </AppContextProvider>
-        {/* <ReactQueryDevtools initialIsOpen={false} position={'bottom-right'}/> */}
+         <ReactQueryDevtools initialIsOpen={false} position={'bottom-right'}/>
     </QueryClientProvider>
 );
 

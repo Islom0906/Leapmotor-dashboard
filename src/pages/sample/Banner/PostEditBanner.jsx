@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Form, Input, message, Row, Upload} from 'antd';
+import {Button, Col, Form, message, Row, Upload} from 'antd';
 import ImgCrop from 'antd-img-crop';
 import {useMutation, useQuery} from 'react-query';
 import apiService from '../../../@crema/services/apis/api';
@@ -9,16 +9,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {EDIT_DATA} from '../../../shared/constants/ActionTypes';
 
 const initialValueForm = {
-  textRu:"",
-  textUz:"",
-  model:"",
   mediaLogoId:"",
-  mediaBannerId:""
+  mediaBrandId:"",
+  mediaVideoId:"",
 };
 
 
 
-const PostEditProduct = () => {
+const PostEditBanner = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const {editId} = useSelector((state) => state.editData);
@@ -26,10 +24,14 @@ const PostEditProduct = () => {
 
   const [fileListProps, setFileListProps] = useState([]);
   const [fileListProps2, setFileListProps2] = useState([]);
+  const [fileListProps3, setFileListProps3] = useState([]);
   const [valuesForm, setValues] = useState({});
   const [isNotEditImages, setIsNotEditImages] = useState(false);
   const [deleteImage, setDeleteImage] = useState({});
   const [deleteImage2, setDeleteImage2] = useState({});
+  const [deleteImage3, setDeleteImage3] = useState({});
+
+  console.log(fileListProps3)
   // query-banner
   const {
     mutate: postBannerMutate,
@@ -57,12 +59,12 @@ const PostEditProduct = () => {
 
   const {
     isLoading: editBannerLoading,
-    data: editProductData,
+    data: editBannerData,
     refetch: editBannerRefetch,
-    isSuccess: editProductSuccess,
+    isSuccess: editBannerSuccess,
   } = useQuery(
     ['edit-banner', editId],
-    () => apiService.getDataByID('/product', editId),
+    () => apiService.getData('/banner'),
     {
       enabled: false,
     },
@@ -91,13 +93,16 @@ const PostEditProduct = () => {
     if (putBannerSuccess) {
       dispatch({type: EDIT_DATA, payload: ''});
     }
-    if (editProductSuccess && deleteImage?.uid) {
+    if (editBannerSuccess && deleteImage?.uid) {
       delImage.push(deleteImage?.uid)
     }
-    if (editProductSuccess && deleteImage2?.uid) {
+    if (editBannerSuccess && deleteImage2?.uid) {
       delImage.push(deleteImage2?.uid)
     }
-    if (editProductSuccess && (deleteImage?.uid || deleteImage2?.uid)) {
+    if (editBannerSuccess && deleteImage3?.uid) {
+      delImage.push(deleteImage3?.uid)
+    }
+    if (editBannerSuccess && (deleteImage?.uid || deleteImage2?.uid || deleteImage3)) {
       const ids={
         ids:delImage
       }
@@ -106,11 +111,11 @@ const PostEditProduct = () => {
 
     if (postBannerSuccess || putBannerSuccess) {
      
-      navigate('/product');
+      navigate('/banner');
     }
   }, [postBanner, putData]);
 
-  // product error
+  //banner error
   useEffect(() => {
     if (postBannerIsError) {
       message.error(postBannerError.message);
@@ -138,64 +143,76 @@ const PostEditProduct = () => {
   useEffect(() => {
     const imageInitialLogo = [
       {
-        uid: editProductData?.imageLogo?._id,
-        name: editProductData?.imageLogo?.name,
+        uid: editBannerData?.imageLogo?._id,
+        name: editBannerData?.imageLogo?.name,
         status: 'done',
-        url: `${process.env.REACT_APP_API_URL}/${editProductData?.imageLogo?.path}`,
+        url: `${process.env.REACT_APP_API_URL}/${editBannerData?.imageLogo?.path}`,
       },
     ];
     const imageInitialBanner=[
       {
-        uid: editProductData?.imageBanner?._id,
-        name: editProductData?.imageBanner?.name,
+        uid: editBannerData?.imageBrand?._id,
+        name: editBannerData?.imageBrand?.name,
         status: 'done',
-        url: `${process.env.REACT_APP_API_URL}/${editProductData?.imageBanner?.path}`,
+        url: `${process.env.REACT_APP_API_URL}/${editBannerData?.imageBrand?.path}`,
       },
     ]
-    if (editProductSuccess) {
+    const videoInitialBanner=[
+      {
+        uid: editBannerData?.videoBanner?._id,
+        name: editBannerData?.videoBanner?.name,
+        status: 'done',
+        url: `${process.env.REACT_APP_API_URL}/${editBannerData?.videoBanner?.path}`,
+      },
+    ]
+    if (editBannerSuccess) {
       const edit = {
-        textRu: editProductData?.textRu,
-        textUz: editProductData?.textUz,
-        model: editProductData?.model,
         mediaLogoId: imageInitialLogo,
-        mediaBannerId: imageInitialBanner,
+        mediaBrandId: imageInitialBanner,
+        mediaVideoId:videoInitialBanner
       };
       setFileListProps(imageInitialLogo);
       setFileListProps2(imageInitialBanner);
+      setFileListProps3(videoInitialBanner);
       form.setFieldsValue(edit);
     }
-  }, [editProductData]);
+  }, [editBannerData]);
 
   // post product
   useEffect(() => {
     let imageLogo=""
-    let imageBanner=""
-    if (editProductSuccess && imagesUploadSuccess && fileListProps[0]?.originFileObj?.uid) {
+    let imageBrand=""
+    let videoBanner=""
+    if (editBannerSuccess && imagesUploadSuccess && fileListProps[0]?.originFileObj?.uid) {
       imageLogo = imagesUpload[0]?._id;
-    } else if (editProductSuccess) {
+    } else if (editBannerSuccess) {
       imageLogo = fileListProps[0]?.uid;
     }
-    if (editProductSuccess && imagesUploadSuccess && fileListProps2[0]?.originFileObj?.uid) {
-      imageBanner = imagesUpload.length===2 ? imagesUpload[1]?._id : imagesUpload[0]?._id;
-    } else if (editProductSuccess) {
-      imageBanner = fileListProps2[0]?.uid;
+    if (editBannerSuccess && imagesUploadSuccess && fileListProps2[0]?.originFileObj?.uid) {
+      imageBrand = imagesUpload.length===3 ? imagesUpload[1]?._id : imagesUpload.length===2 ? imagesUpload[1]?._id : imagesUpload[0]?._id;
+    } else if (editBannerSuccess) {
+      imageBrand = fileListProps2[0]?.uid;
     }
-    if (!editProductSuccess && imagesUpload){
+    if (editBannerSuccess && imagesUploadSuccess && fileListProps3[0]?.originFileObj?.uid) {
+      videoBanner = imagesUpload.length===3 ? imagesUpload[2]?._id : imagesUpload.length===2 ? imagesUpload[1]?._id : imagesUpload[0]?._id;
+    } else if (editBannerSuccess) {
+      videoBanner = fileListProps3[0]?.uid;
+    }
+    if (!editBannerSuccess && imagesUpload){
       imageLogo=imagesUpload[0]?._id
-      imageBanner=imagesUpload[1]?._id
+      imageBrand=imagesUpload[1]?._id
+      videoBanner=imagesUpload[2]?._id
     }
     const data = {
-      textRu: valuesForm.textRu,
-      textUz: valuesForm.textUz,
-      model:valuesForm.model,
       mediaLogoId: imageLogo,
-      mediaBannerId:imageBanner
+      mediaBrandId:imageBrand,
+      mediaVideoId:videoBanner
     };
-
-    if (imagesUploadSuccess && !editProductSuccess) {
-      postBannerMutate({url: '/product', data});
+    console.log(data)
+    if (imagesUploadSuccess && !editBannerSuccess) {
+      postBannerMutate({url: '/banner', data});
     } else if (isNotEditImages || imagesUploadSuccess) {
-      putBanner({url: '/product', data, id: editId});
+      putBanner({url: '/banner', data, id: editId});
     }
   }, [imagesUpload, valuesForm]);
 
@@ -204,11 +221,12 @@ const PostEditProduct = () => {
 
     let uploadNewImage = false;
 
-    if (editProductSuccess) {
-      if (fileListProps[0]?.originFileObj?.uid && fileListProps2[0]?.originFileObj?.uid) {
+    if (editBannerSuccess) {
+      if (fileListProps[0]?.originFileObj?.uid && fileListProps2[0]?.originFileObj?.uid && fileListProps3[0]?.originFileObj?.uid) {
         uploadNewImage = true;
         formData.append('media', fileListProps[0]?.originFileObj);
         formData.append('media', fileListProps2[0]?.originFileObj);
+        formData.append('media', fileListProps3[0]?.originFileObj);
 
         setIsNotEditImages(false);
         // setFileList(fileListProps);
@@ -224,6 +242,12 @@ const PostEditProduct = () => {
 
         setIsNotEditImages(false);
         // setFileList(fileListProps);
+      } else if (fileListProps3[0]?.originFileObj?.uid) {
+        uploadNewImage = true;
+        formData.append('media', fileListProps3[0]?.originFileObj);
+
+        setIsNotEditImages(false);
+        // setFileList(fileListProps);
       }else {
         uploadNewImage = false;
         // setFileList(fileListProps);
@@ -233,6 +257,7 @@ const PostEditProduct = () => {
       uploadNewImage = true;
       formData.append('media', fileListProps[0]?.originFileObj);
       formData.append('media', fileListProps2[0]?.originFileObj);
+      formData.append('media', fileListProps3[0]?.originFileObj);
     }
     if (uploadNewImage && !imagesUploadSuccess) {
       imagesUploadMutate({url: '/medias', formData});
@@ -248,19 +273,29 @@ const PostEditProduct = () => {
     form.setFieldsValue({mediaLogoId: newFileList});
   };
 
-  const onChangeBanner = ({fileList: newFileList}) => {
+  const onChangeBrand = ({fileList: newFileList}) => {
     setFileListProps2(newFileList);
-    form.setFieldsValue({mediaBannerId: newFileList});
+    form.setFieldsValue({mediaBrandId: newFileList});
+  };
+
+  const onChangeBanner = ({fileList: newFileList}) => {
+    setFileListProps3(newFileList);
+    form.setFieldsValue({mediaVideoId: newFileList});
   };
 
   const handleRemoveImageLogo = (file) => {
-    if (editProductSuccess) {
+    if (editBannerSuccess) {
       setDeleteImage(file);
     }
   };
-  const handleRemoveImageBanner = (file) => {
-    if (editProductSuccess) {
+  const handleRemoveImageBrand = (file) => {
+    if (editBannerSuccess) {
       setDeleteImage2(file);
+    }
+  };
+  const handleRemoveImageBanner = (file) => {
+    if (editBannerSuccess) {
+      setDeleteImage3(file);
     }
   };
 
@@ -331,50 +366,6 @@ const PostEditProduct = () => {
           <Row gutter={20}>
             <Col span={12}>
               <Form.Item
-                label='Текст Ru'
-                name='textRu'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Требуется текст RU!',
-                  },
-                ]}>
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label='Text Uz'
-                name='textUz'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Text kiritish talab qilinadi Ru!',
-                  },
-                ]}>
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={20}>
-            <Col span={24}>
-              <Form.Item
-                label='Model'
-                name='model'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Требуется ввод модели',
-                  },
-                ]}>
-                <Input />
-              </Form.Item>
-            </Col>
-
-          </Row>
-          <Row gutter={20}>
-            <Col span={12}>
-              <Form.Item
                   label='Изображение логотипа'
                   name={'mediaLogoId'}
                   rules={[{required: true, message: 'Требуется загрузка изображения логотипа'}]}>
@@ -394,18 +385,18 @@ const PostEditProduct = () => {
             </Col>
             <Col span={12}>
               <Form.Item
-                  label='Изображение баннера'
-                  name={'mediaBannerId'}
-                  rules={[{required: true, message: 'Требуется загрузка изображения баннера'}]}>
+                  label='Изображение бренда'
+                  name={'mediaBrandId'}
+                  rules={[{required: true, message: 'Требуется загрузка изображения бренда'}]}>
                 <ImgCrop rotationSlider>
                   <Upload
                       maxCount={1}
                       fileList={fileListProps2}
                       listType='picture-card'
-                      onChange={onChangeBanner}
+                      onChange={onChangeBrand}
                       onPreview={onPreview}
                       beforeUpload={() => false}
-                      onRemove={handleRemoveImageBanner}>
+                      onRemove={handleRemoveImageBrand}>
                     {fileListProps2.length>0 ? "" : "Upload"}
                   </Upload>
                 </ImgCrop>
@@ -413,8 +404,31 @@ const PostEditProduct = () => {
             </Col>
           </Row>
 
+          <Row gutter={20}>
+            <Col span={24}>
+              <Form.Item
+                  label='Баннерное видео'
+                  name={'mediaBrandId'}
+                  rules={[{required: true, message: 'Требуется видеобаннер'}]}>
+
+                  <Upload
+                      maxCount={1}
+                      accept="video/*"
+                      fileList={fileListProps3}
+                      listType='picture-card'
+                      onChange={onChangeBanner}
+                      onPreview={onPreview}
+                      beforeUpload={() => false}
+                      onRemove={handleRemoveImageBanner}>
+                    {fileListProps3.length>0 ? "" : "Upload"}
+                  </Upload>
+              </Form.Item>
+            </Col>
+
+          </Row>
+
           <Button type='primary' htmlType='submit' style={{width: '100%'}}>
-            {editProductSuccess ? 'Edit' : 'Add'}
+            {editBannerSuccess ? 'Edit' : 'Add'}
           </Button>
         </Form>
       )}
@@ -422,4 +436,4 @@ const PostEditProduct = () => {
   );
 };
 
-export default PostEditProduct;
+export default PostEditBanner;

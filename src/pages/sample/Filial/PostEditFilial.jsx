@@ -9,35 +9,31 @@ import {useDispatch, useSelector} from 'react-redux';
 import {EDIT_DATA} from '../../../shared/constants/ActionTypes';
 
 const initialValueForm = {
-  textRu:"",
-  textUz:"",
-  model:"",
-  mediaLogoId:"",
-  mediaBannerId:""
+  titleRu:"",
+  titleUz:"",
+  mediaId:""
 };
 
 
 
-const PostEditProduct = () => {
+const PostEditFilial = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const {editId} = useSelector((state) => state.editData);
   const dispatch = useDispatch();
 
   const [fileListProps, setFileListProps] = useState([]);
-  const [fileListProps2, setFileListProps2] = useState([]);
   const [valuesForm, setValues] = useState({});
   const [isNotEditImages, setIsNotEditImages] = useState(false);
   const [deleteImage, setDeleteImage] = useState({});
-  const [deleteImage2, setDeleteImage2] = useState({});
-  // query-banner
+  // query-filial
   const {
-    mutate: postBannerMutate,
-    data: postBanner,
-    isLoading: postBannerLoading,
-    isSuccess: postBannerSuccess,
-    error: postBannerError,
-    isError: postBannerIsError,
+    mutate: postFilialMutate,
+    data: postFilial,
+    isLoading: postFilialLoading,
+    isSuccess: postFilialSuccess,
+    error: postFilialError,
+    isError: postFilialIsError,
   } = useMutation(({url, data}) => apiService.postData(url, data),
       {
         onSuccess: () => message.success('Success'),
@@ -56,25 +52,25 @@ const PostEditProduct = () => {
   // query-edit
 
   const {
-    isLoading: editBannerLoading,
-    data: editProductData,
-    refetch: editBannerRefetch,
-    isSuccess: editProductSuccess,
+    isLoading: editFilialLoading,
+    data: editFilialtData,
+    refetch: editFilialRefetch,
+    isSuccess: editFilialtSuccess,
   } = useQuery(
-    ['edit-banner', editId],
-    () => apiService.getDataByID('/product', editId),
+    ['edit-filial', editId],
+    () => apiService.getDataByID('/filial', editId),
     {
       enabled: false,
     },
   );
   // put-query
   const {
-    mutate: putBanner,
-    isLoading: putBannerLoading,
+    mutate: putFilial,
+    isLoading: putFilialLoading,
     data: putData,
-    isSuccess: putBannerSuccess,
-    error: putBannerError,
-    isError: putBannerIsError,
+    isSuccess: putFilialSuccess,
+    error: putFilialError,
+    isError: putFilialIsError,
   } = useMutation(({url, data, id}) => apiService.editData(url, data, id),{
     onError: (error) => message.error(error.message)
   });
@@ -85,117 +81,98 @@ const PostEditProduct = () => {
       }
   );
 
-  // product success
+  // filial success
   useEffect(() => {
     let delImage=[]
-    if (putBannerSuccess) {
+    if (putFilialSuccess) {
       dispatch({type: EDIT_DATA, payload: ''});
     }
-    if (editProductSuccess && deleteImage?.uid) {
+    if (editFilialtSuccess && deleteImage?.uid) {
       delImage.push(deleteImage?.uid)
     }
-    if (editProductSuccess && deleteImage2?.uid) {
-      delImage.push(deleteImage2?.uid)
-    }
-    if (editProductSuccess && (deleteImage?.uid || deleteImage2?.uid)) {
+    if (editFilialtSuccess && deleteImage?.uid ) {
       const ids={
         ids:delImage
       }
       imagesDeleteMutate({url: '/medias', ids});
     }
 
-    if (postBannerSuccess || putBannerSuccess) {
+    if (postFilialSuccess || putFilialSuccess) {
      
-      navigate('/product');
+      navigate('/filial');
     }
-  }, [postBanner, putData]);
+  }, [postFilial, putData]);
 
-  // product error
+  // filial error
   useEffect(() => {
-    if (postBannerIsError) {
-      message.error(postBannerError.message);
+    if (postFilialIsError) {
+      message.error(postFilialError.message);
     }
-    if (putBannerIsError) {
-      message.error(putBannerError.message);
+    if (putFilialIsError) {
+      message.error(putFilialError.message);
     }
-  }, [postBannerError, putBannerError]);
+  }, [postFilialError, putFilialError]);
 
-  // if edit product
+  // if edit filial
   useEffect(() => {
     if (editId !== '') {
-      editBannerRefetch();
+      editFilialRefetch();
     }
   }, [editId]);
 
-  // if no edit product
+  // if no edit filial
   useEffect(() => {
     if (editId === '') {
       form.setFieldsValue(initialValueForm);
     }
   }, []);
 
-  //edit product
+  //edit filial
   useEffect(() => {
-    const imageInitialLogo = [
+    const imageInitial = [
       {
-        uid: editProductData?.imageLogo?._id,
-        name: editProductData?.imageLogo?.name,
+        uid: editFilialtData?.image?._id,
+        name: editFilialtData?.image?.name,
         status: 'done',
-        url: `${process.env.REACT_APP_API_URL}/${editProductData?.imageLogo?.path}`,
+        url: `${process.env.REACT_APP_API_URL}/${editFilialtData?.image?.path}`,
       },
     ];
-    const imageInitialBanner=[
-      {
-        uid: editProductData?.imageBanner?._id,
-        name: editProductData?.imageBanner?.name,
-        status: 'done',
-        url: `${process.env.REACT_APP_API_URL}/${editProductData?.imageBanner?.path}`,
-      },
-    ]
-    if (editProductSuccess) {
+
+    if (editFilialtSuccess) {
       const edit = {
-        textRu: editProductData?.textRu,
-        textUz: editProductData?.textUz,
-        model: editProductData?.model,
-        mediaLogoId: imageInitialLogo,
-        mediaBannerId: imageInitialBanner,
+        titleRu: editFilialtData?.titleRu,
+        titleUz: editFilialtData?.titleUz,
+        mediaId: imageInitial,
       };
-      setFileListProps(imageInitialLogo);
-      setFileListProps2(imageInitialBanner);
+      setFileListProps(imageInitial);
       form.setFieldsValue(edit);
     }
-  }, [editProductData]);
+  }, [editFilialtData]);
 
-  // post product
+  // post filial
   useEffect(() => {
-    let imageLogo=""
-    let imageBanner=""
-    if (editProductSuccess && imagesUploadSuccess && fileListProps[0]?.originFileObj?.uid) {
-      imageLogo = imagesUpload[0]?._id;
-    } else if (editProductSuccess) {
-      imageLogo = fileListProps[0]?.uid;
+    let image=""
+    if (editFilialtSuccess && imagesUploadSuccess && fileListProps[0]?.originFileObj?.uid) {
+      image = imagesUpload[0]?._id;
+    } else if (editFilialtSuccess) {
+      image = fileListProps[0]?.uid;
     }
-    if (editProductSuccess && imagesUploadSuccess && fileListProps2[0]?.originFileObj?.uid) {
-      imageBanner = imagesUpload.length===2 ? imagesUpload[1]?._id : imagesUpload[0]?._id;
-    } else if (editProductSuccess) {
-      imageBanner = fileListProps2[0]?.uid;
-    }
-    if (!editProductSuccess && imagesUpload){
-      imageLogo=imagesUpload[0]?._id
-      imageBanner=imagesUpload[1]?._id
+
+    if (!editFilialtSuccess && imagesUpload){
+      image=imagesUpload[0]?._id
     }
     const data = {
-      textRu: valuesForm.textRu,
-      textUz: valuesForm.textUz,
-      model:valuesForm.model,
-      mediaLogoId: imageLogo,
-      mediaBannerId:imageBanner
+      titleRu: valuesForm.titleRu,
+      titleUz: valuesForm.titleUz,
+      mediaId:image,
+
     };
 
-    if (imagesUploadSuccess && !editProductSuccess) {
-      postBannerMutate({url: '/product', data});
+    console.log(data)
+    if (imagesUploadSuccess && !editFilialtSuccess) {
+      postFilialMutate({url: '/filial', data});
     } else if (isNotEditImages || imagesUploadSuccess) {
-      putBanner({url: '/product', data, id: editId});
+      putFilial({url: '/filial', data, id: editId});
     }
   }, [imagesUpload, valuesForm]);
 
@@ -204,27 +181,14 @@ const PostEditProduct = () => {
 
     let uploadNewImage = false;
 
-    if (editProductSuccess) {
-      if (fileListProps[0]?.originFileObj?.uid && fileListProps2[0]?.originFileObj?.uid) {
-        uploadNewImage = true;
-        formData.append('media', fileListProps[0]?.originFileObj);
-        formData.append('media', fileListProps2[0]?.originFileObj);
-
-        setIsNotEditImages(false);
-        // setFileList(fileListProps);
-      }else if (fileListProps[0]?.originFileObj?.uid) {
+    if (editFilialtSuccess) {
+      if (fileListProps[0]?.originFileObj?.uid) {
         uploadNewImage = true;
         formData.append('media', fileListProps[0]?.originFileObj);
 
         setIsNotEditImages(false);
         // setFileList(fileListProps);
-      } else if (fileListProps2[0]?.originFileObj?.uid) {
-        uploadNewImage = true;
-        formData.append('media', fileListProps2[0]?.originFileObj);
-
-        setIsNotEditImages(false);
-        // setFileList(fileListProps);
-      }else {
+      } else {
         uploadNewImage = false;
         // setFileList(fileListProps);
         setIsNotEditImages(true);
@@ -232,7 +196,6 @@ const PostEditProduct = () => {
     } else {
       uploadNewImage = true;
       formData.append('media', fileListProps[0]?.originFileObj);
-      formData.append('media', fileListProps2[0]?.originFileObj);
     }
     if (uploadNewImage && !imagesUploadSuccess) {
       imagesUploadMutate({url: '/medias', formData});
@@ -243,24 +206,16 @@ const PostEditProduct = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const onChangeLogo = ({fileList: newFileList}) => {
+  const onChange = ({fileList: newFileList}) => {
     setFileListProps(newFileList);
-    form.setFieldsValue({mediaLogoId: newFileList});
+    form.setFieldsValue({mediaId: newFileList});
   };
 
-  const onChangeBanner = ({fileList: newFileList}) => {
-    setFileListProps2(newFileList);
-    form.setFieldsValue({mediaBannerId: newFileList});
-  };
 
-  const handleRemoveImageLogo = (file) => {
-    if (editProductSuccess) {
+
+  const handleRemoveImage = (file) => {
+    if (editFilialtSuccess) {
       setDeleteImage(file);
-    }
-  };
-  const handleRemoveImageBanner = (file) => {
-    if (editProductSuccess) {
-      setDeleteImage2(file);
     }
   };
 
@@ -307,9 +262,9 @@ const PostEditProduct = () => {
   return (
     <div>
       {imagesUploadLoading ||
-      postBannerLoading ||
-      editBannerLoading ||
-      putBannerLoading ? (
+      postFilialLoading ||
+      editFilialLoading ||
+      putFilialLoading ? (
         <AppLoader />
       ) : (
         <Form
@@ -332,7 +287,7 @@ const PostEditProduct = () => {
             <Col span={12}>
               <Form.Item
                 label='Текст Ru'
-                name='textRu'
+                name='titleRu'
                 rules={[
                   {
                     required: true,
@@ -345,7 +300,7 @@ const PostEditProduct = () => {
             <Col span={12}>
               <Form.Item
                 label='Text Uz'
-                name='textUz'
+                name='titleUz'
                 rules={[
                   {
                     required: true,
@@ -356,65 +311,32 @@ const PostEditProduct = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={20}>
-            <Col span={24}>
-              <Form.Item
-                label='Model'
-                name='model'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Требуется ввод модели',
-                  },
-                ]}>
-                <Input />
-              </Form.Item>
-            </Col>
 
-          </Row>
           <Row gutter={20}>
             <Col span={12}>
               <Form.Item
                   label='Изображение логотипа'
-                  name={'mediaLogoId'}
+                  name={'mediaId'}
                   rules={[{required: true, message: 'Требуется загрузка изображения логотипа'}]}>
                 <ImgCrop rotationSlider>
                   <Upload
                       maxCount={1}
                       fileList={fileListProps}
                       listType='picture-card'
-                      onChange={onChangeLogo}
+                      onChange={onChange}
                       onPreview={onPreview}
                       beforeUpload={() => false}
-                      onRemove={handleRemoveImageLogo}>
+                      onRemove={handleRemoveImage}>
                     {fileListProps.length>0 ? "" : "Upload"}
                   </Upload>
                 </ImgCrop>
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item
-                  label='Изображение баннера'
-                  name={'mediaBannerId'}
-                  rules={[{required: true, message: 'Требуется загрузка изображения баннера'}]}>
-                <ImgCrop rotationSlider>
-                  <Upload
-                      maxCount={1}
-                      fileList={fileListProps2}
-                      listType='picture-card'
-                      onChange={onChangeBanner}
-                      onPreview={onPreview}
-                      beforeUpload={() => false}
-                      onRemove={handleRemoveImageBanner}>
-                    {fileListProps2.length>0 ? "" : "Upload"}
-                  </Upload>
-                </ImgCrop>
-              </Form.Item>
-            </Col>
+
           </Row>
 
           <Button type='primary' htmlType='submit' style={{width: '100%'}}>
-            {editProductSuccess ? 'Edit' : 'Add'}
+            {editFilialtSuccess ? 'Edit' : 'Add'}
           </Button>
         </Form>
       )}
@@ -422,4 +344,4 @@ const PostEditProduct = () => {
   );
 };
 
-export default PostEditProduct;
+export default PostEditFilial;

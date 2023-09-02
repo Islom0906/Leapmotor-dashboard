@@ -27,7 +27,6 @@ const JWTAuthAuthProvider = ({children}) => {
   useEffect(() => {
     const getAuthUser = () => {
       const token = localStorage.getItem('lptoken');
-      console.log(token)
       if (!token) {
         setJWTAuthData({
           user: undefined,

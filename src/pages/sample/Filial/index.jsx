@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ProductTable from "./ProductTable";
+import FilialTable from "./FilialTable";
 import {Button, Col, Input, message, Row, Space, Spin} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
@@ -16,8 +16,8 @@ const Index = () => {
                                                                                   url,
                                                                                   id
                                                                               }) => apiService.deleteData(url, id))
-    const {data, isLoading: getCategoryLoading, refetch} = useQuery('product-get', () =>
-            apiService.getData('/product'), {
+    const {data, isLoading: getCategoryLoading, refetch} = useQuery('filial-get', () =>
+            apiService.getData('/filial'), {
             // enabled:false,
             onError: (error) => {
                 
@@ -42,7 +42,7 @@ const Index = () => {
 
     const addArticle = () => {
         dispatch({type: EDIT_DATA, payload: ""})
-        navigate('/product/add')
+        navigate('/filial/add')
     }
     const serachProduct=(value)=>{
         if (value===""){
@@ -53,7 +53,7 @@ const Index = () => {
         }
 
 
-        const filterData=data?.filter(data=>data.textRu.toLowerCase().includes(value.toLowerCase()) || data.textUz.toLowerCase().includes(value.toLowerCase()))
+        const filterData=data?.filter(data=>data.titleRu.toLowerCase().includes(value.toLowerCase()) || data.titleUz.toLowerCase().includes(value.toLowerCase()))
         setSearch(filterData)
     }
     return (
@@ -70,7 +70,7 @@ const Index = () => {
                     </Col>
                 </Row>
                 <Spin size='medium' spinning={getCategoryLoading || deleteCategoryLoading}>
-                    <ProductTable data={isSearch ? search : data} deleteHandle={deleteHandle}/>
+                    <FilialTable data={isSearch ? search : data} deleteHandle={deleteHandle}/>
                 </Spin>
             </Space>
 

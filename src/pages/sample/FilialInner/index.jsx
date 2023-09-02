@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ProductTable from "./ProductTable";
+import ProductTable from "./FilialInnerTable";
 import {Button, Col, Input, message, Row, Space, Spin} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
@@ -12,12 +12,13 @@ import {useDispatch} from "react-redux";
 const Index = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {mutate, isSuccess, isLoading: deleteCategoryLoading} = useMutation(({
-                                                                                  url,
-                                                                                  id
-                                                                              }) => apiService.deleteData(url, id))
-    const {data, isLoading: getCategoryLoading, refetch} = useQuery('product-get', () =>
-            apiService.getData('/product'), {
+    const {
+        mutate,
+        isSuccess,
+        isLoading: deleteFilialInnerLoading,
+    } = useMutation(({url, id}) => apiService.deleteData(url, id));
+    const {data, isLoading: getFilialInnerLoading,refetch} = useQuery('filialInner-get', () =>
+            apiService.getData('/filialInner'), {
             // enabled:false,
             onError: (error) => {
                 
@@ -28,21 +29,19 @@ const Index = () => {
     );
     const [search,setSearch]=useState([])
     const [isSearch,setIsSearch]=useState(false)
+
+
     const deleteHandle = (url, id) => {
-        mutate({url, id})
-
-    }
-
-
+        mutate({url, id});
+    };
     useEffect(() => {
         if (isSuccess) {
-            refetch()
+            refetch();
         }
-    }, [isSuccess])
-
+    }, [isSuccess]);
     const addArticle = () => {
         dispatch({type: EDIT_DATA, payload: ""})
-        navigate('/product/add')
+        navigate('/filialInner/add')
     }
     const serachProduct=(value)=>{
         if (value===""){
@@ -61,20 +60,27 @@ const Index = () => {
             <Space direction={'vertical'} style={{width: '100%'}}>
                 <Row gutter={20}>
                     <Col span={16}>
-                        <Input onChange={(e)=>serachProduct(e.target.value)}/>
+                        <Input onChange={(e) => serachProduct(e.target.value)} />
                     </Col>
                     <Col span={8}>
-                        <Button  type="primary" icon={<PlusOutlined/>} style={{width: '100%'}} onClick={addArticle}>
+                        <Button
+                            type='primary'
+                            icon={<PlusOutlined />}
+                            style={{width: '100%'}}
+                            onClick={addArticle}>
                             Add
                         </Button>
                     </Col>
                 </Row>
-                <Spin size='medium' spinning={getCategoryLoading || deleteCategoryLoading}>
-                    <ProductTable data={isSearch ? search : data} deleteHandle={deleteHandle}/>
+                <Spin
+                    size='medium'
+                        spinning={deleteFilialInnerLoading || getFilialInnerLoading}>
+                    <ProductTable
+                        data={isSearch ? search : data}
+                        deleteHandle={deleteHandle}
+                    />
                 </Spin>
             </Space>
-
-
         </div>
     );
 };
