@@ -351,7 +351,7 @@ const PostEditAbout = () => {
     const onChangeMain = ({ fileList: newFileList }) => {
         console.log(newFileList);
         setFileListPropsMain(newFileList);
-        form.setFieldsValue({ mediaId: newFileList });
+        form.setFieldsValue({ mainMediaId: newFileList });
         if (fileListMain.length!==0 || newFileList.length === 0) {
             console.log('render');
             const id = fileListMain[0]?._id;
@@ -380,7 +380,7 @@ const PostEditAbout = () => {
     const onChangeVideo = ({ fileList: newFileList }) => {
         console.log(newFileList);
         setFileListPropsVideo(newFileList);
-        form.setFieldsValue({ mainMediaId: newFileList });
+        form.setFieldsValue({ videoId: newFileList });
         if (fileListVideo.length!==0 || newFileList.length === 0) {
             console.log('render');
             const id = fileListVideo[0]?._id;
@@ -407,9 +407,8 @@ const PostEditAbout = () => {
         }
     }, [imagesUpload]);
 
-    console.log(fileListTeam)
     const onChangeResearch = ({ fileList: newFileList }) => {
-        console.log(newFileList)
+
         setFileListPropsResearch(newFileList);
         form.setFieldsValue({ researchMediaId: newFileList });
         if (fileListResearch.length!==0 || newFileList.length === 0) {
@@ -439,11 +438,12 @@ const PostEditAbout = () => {
     const onChangeAboutImage = (index, { fileList: newFileList }) => {
         setMainIndexTeam(index);
 
-        // const getValue = form.getFieldsValue();
-        // const itemsValue = getValue?.team;
-        // itemsValue[index].mediaId = newFileList;
-        // form.setFieldsValue({ items: itemsValue });
+        const getValue = form.getFieldsValue();
+        const itemsValue = getValue?.team;
+        itemsValue[index].mediaId = newFileList;
 
+        form.setFieldsValue({ items: itemsValue });
+        console.log(itemsValue,index)
         const updateImageStates = [...fileListPropsTeam];
         updateImageStates[index] = newFileList;
         setFileListPropsTeam(updateImageStates);
@@ -479,8 +479,13 @@ const PostEditAbout = () => {
 
         const getValue = form.getFieldsValue();
         const itemsValue = getValue.systems;
+        if (itemsValue[index].mediaId){
+
         itemsValue[index].mediaId = newFileList;
         form.setFieldsValue({ items: itemsValue });
+
+        }
+
 
         const updateImageStates = [...fileListPropsTeam];
         updateImageStates[index] = newFileList;
@@ -625,7 +630,7 @@ const PostEditAbout = () => {
                                 label='Изображение'
                                 name={'mainMediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения '}]}>
-                                <ImgCrop rotationSlider>
+                                <ImgCrop rotate>
                                     <Upload
                                         maxCount={1}
                                         fileList={fileListPropsMain}
@@ -793,7 +798,7 @@ const PostEditAbout = () => {
                                     );
                                 })}
                                 <Form.Item>
-                                    <Button type="dashed" onClick={() => add()} block>
+                                    <Button type="primary" onClick={() => add()} block>
                                         Add Item
                                     </Button>
                                 </Form.Item>
@@ -866,7 +871,7 @@ const PostEditAbout = () => {
                                 label='Изображение'
                                 name={'researchMediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения '}]}>
-                                <ImgCrop rotationSlider>
+                                <ImgCrop rotate>
                                     <Upload
                                         maxCount={1}
                                         fileList={fileListPropsResearch}
@@ -1011,7 +1016,7 @@ const PostEditAbout = () => {
                                     );
                                 })}
                                 <Form.Item>
-                                    <Button type="dashed" type='primary' onClick={() => add()} block>
+                                    <Button  type='primary' onClick={() => add()} block>
                                         Add Item
                                     </Button>
                                 </Form.Item>
