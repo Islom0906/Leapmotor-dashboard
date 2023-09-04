@@ -104,8 +104,8 @@ const JWTAuthAuthProvider = ({children}) => {
   };
 
   const logout = async () => {
-    localStorage.removeItem('token');
-    // setAuthToken();
+    localStorage.removeItem('lptoken');
+    setAuthToken();
     setJWTAuthData({
       user: null,
       isLoading: false,

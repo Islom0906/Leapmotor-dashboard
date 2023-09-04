@@ -8,8 +8,8 @@ const { Title } = Typography;
 
 const OrderChart = () => {
   const {data} = useQuery(
-    'order-get',
-    () => apiService.getData('/UserOrder'),
+    'dealers-get',
+    () => apiService.getData('/dealers'),
     {
       onError: (error) => {
         const err=[]
@@ -28,7 +28,7 @@ const OrderChart = () => {
       const ordersByDate = {};
 
       data?.forEach((order) => {
-        const createAt = order.createAt;
+        const createAt = order.createdAt;
         const date = createAt.split("T")[0];
       
         if (ordersByDate[date]) {

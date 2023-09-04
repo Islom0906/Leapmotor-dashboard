@@ -72,10 +72,18 @@ const routesConfig = [
       {
         id: 'News',
         title: 'News',
-        messageId: 'sidebar.sample.contact',
+        messageId: 'sidebar.sample.news',
         type: 'item',
         icon: <BsFillImageFill />,
         path: '/news',
+      },
+      {
+        id: 'About',
+        title: 'About',
+        messageId: 'sidebar.sample.about',
+        type: 'item',
+        icon: <BsFillImageFill />,
+        path: '/about',
       },
       {
         id: 'orders',

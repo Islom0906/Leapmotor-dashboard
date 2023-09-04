@@ -145,7 +145,7 @@ const MapPostEdit = () => {
 
 
         if (editMapData){
-            putMap({url: '/map',editId,data})
+            putMap({url: '/map',data,id:editId})
         }else{
             postMapMutate({url: "/map", data});
         }

@@ -15,12 +15,18 @@ const Contact = React.lazy(() => import('./Contact'));
 const PostEditContact = React.lazy(() => import('./Contact/ContactPostEdit'));
 const News = React.lazy(() => import('./News'));
 const NewsPostEdit = React.lazy(() => import('./News/NewsPostEdit'));
+const About = React.lazy(() => import('./About'));
+const AboutPostEdit = React.lazy(() => import('./About/PostEditAbout'));
 // const Orders = React.lazy(() => import('./Orders'));
-// const Dashboard = React.lazy(() => import('./Dashboard'));
+const Dashboard = React.lazy(() => import('./Dashboard'));
 
 
 export const samplePagesConfigs = [
-
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/dashboard',
+    element: <Dashboard/>,
+  },
 
   {
     permittedRole: RoutePermittedRole.user,
@@ -70,6 +76,11 @@ export const samplePagesConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.user,
+    path: '/filialInner/add',
+    element: <PostEditFilialInner />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
     path: '/contact/add',
     element: <PostEditContact />,
   },
@@ -81,7 +92,7 @@ export const samplePagesConfigs = [
   {
     permittedRole: RoutePermittedRole.user,
     path: '/news/add',
-    element: <PostEditContact />,
+    element: <NewsPostEdit />,
   },
   {
     permittedRole: RoutePermittedRole.user,
@@ -90,7 +101,12 @@ export const samplePagesConfigs = [
   },
   {
     permittedRole: RoutePermittedRole.user,
-    path: '/filialInner/add',
-    element: <NewsPostEdit />,
+    path: '/about/add',
+    element: <AboutPostEdit />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/about',
+    element: <About />,
   },
 ];

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+  import React, {useEffect, useState} from 'react';
 import NewsTable from './NewsTable';
 import {Button, Col, Input, message, Row, Space, Spin} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
@@ -43,7 +43,7 @@ const Index = () => {
 
   const addArticle = () => {
     dispatch({type: EDIT_DATA, payload: ''});
-    navigate('/map/add');
+    navigate('/news/add');
   };
   const serachProduct = (value) => {
     if (value === '') {

@@ -349,7 +349,7 @@ const PostEditProduct = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Text kiritish talab qilinadi Ru!',
+                    message: 'Text kiritish talab qilinadi Uz!',
                   },
                 ]}>
                 <Input />

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Form, Input, message, Space, Upload,} from "antd";
-import { EditorState } from "draft-js";
-import { convertFromHTML, convertToHTML } from "draft-convert";
-import { Editor } from "react-draft-wysiwyg";
+import {Button, Col, Form, Input, message, Row, Space, Upload,} from "antd";
+import {EditorState} from "draft-js";
+import {convertFromHTML, convertToHTML} from "draft-convert";
+import {Editor} from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import './NewsPostEdit.css'
 
@@ -17,9 +17,9 @@ import ImgCrop from "antd-img-crop";
 import {MinusCircleOutlined} from "@ant-design/icons";
 
 const initialValueForm = {
-    titleUz:"",
-    titleRu:"",
-    items: [
+    titleUz: "",
+    titleRu: "",
+    description: [
         {
             textRu: "",
             textUz: "",
@@ -29,13 +29,11 @@ const initialValueForm = {
 };
 
 
-
 const NewsPostEdit = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate()
-    const {editId}=useSelector(state => state.editData)
-    const dispatch=useDispatch()
-
+    const {editId} = useSelector(state => state.editData)
+    const dispatch = useDispatch()
 
 
     const [fileListBody, setFileListBody] = useState([]);
@@ -52,12 +50,12 @@ const NewsPostEdit = () => {
         isSuccess: postMapSuccess,
         error: postMapError,
         isError: postMapIsError
-    } = useMutation(({url, data}) => apiService.postData(url, data),{
-        onSuccess:()=>{
+    } = useMutation(({url, data}) => apiService.postData(url, data), {
+        onSuccess: () => {
 
             message.success('Success')
         },
-        onError:(error)=>{
+        onError: (error) => {
 
             message.error(error)
         }
@@ -69,9 +67,9 @@ const NewsPostEdit = () => {
         data: editMapData,
         refetch: editMapRefetch,
         isSuccess: editMapSuccess,
-        error:putMapError,
-        isError:putMapIsError
-    } = useQuery(["edit-map", editId], () => apiService.getDataByID("/map", editId), {
+        error: putMapError,
+        isError: putMapIsError
+    } = useQuery(["edit-map", editId], () => apiService.getDataByID("/news", editId), {
         enabled: false
     });
     // query-image
@@ -80,9 +78,12 @@ const NewsPostEdit = () => {
         data: imagesUpload,
         isLoading: imagesUploadLoading,
         isSuccess: imagesUploadSuccess,
-    } = useMutation(({url, formData}) => apiService.postData(url, formData),{
+    } = useMutation(({url, formData}) => apiService.postData(url, formData), {
+        onSuccess: () => {
 
-        onError: (error) => message.error(error.message,'Rasmning JPG,JPEG,PNG formatlariga ruxsat etilgan')
+            message.success('Success')
+        },
+        onError: (error) => message.error(error.message, 'Rasmning JPG,JPEG,PNG formatlariga ruxsat etilgan')
     });
     // put-query
     const {
@@ -95,9 +96,12 @@ const NewsPostEdit = () => {
                          data,
                          id
                      }) => apiService.editData(url, data, id));
-    const {mutate: imagesDeleteMutate} = useMutation(({url, ids}) => apiService.deleteImages(url, ids),{
+    const {mutate: imagesDeleteMutate} = useMutation(({url, ids}) => apiService.deleteImages(url, ids), {
             onSuccess: () => message.success('Success'),
-            onError: (error) => message.error(error.message)
+            onError: (error) => {
+
+                message.error(error.message)
+            }
         }
     );
 
@@ -105,14 +109,14 @@ const NewsPostEdit = () => {
     // map success
     useEffect(() => {
         if (putMapSuccess) {
-            dispatch({type:EDIT_DATA,payload:""})
+            dispatch({type: EDIT_DATA, payload: ""})
         }
 
         if (postMapSuccess || putMapSuccess) {
 
-            navigate('/map')
+            navigate('/news')
         }
-    }, [postMap,putData])
+    }, [postMap, putData])
 
     // map error
     useEffect(() => {
@@ -122,8 +126,7 @@ const NewsPostEdit = () => {
         if (putMapIsError) {
             message.error(putMapError.message)
         }
-    }, [postMapError,putMapError])
-
+    }, [postMapError, putMapError])
 
 
     // if edit map
@@ -135,25 +138,26 @@ const NewsPostEdit = () => {
 
     // if no edit map
     useEffect(() => {
-        if (editId===""){
+        if (editId === "") {
             form.setFieldsValue(initialValueForm)
         }
     }, []);
 
 
-
     useEffect(() => {
+        console.log(imagesUpload)
         const uploadFilesState = [...fileListBody];
-        uploadFilesState[mainIndex] = imagesUpload[0];
-        if (imagesUploadSuccess){
+        if (imagesUploadSuccess) {
+            uploadFilesState[mainIndex] = imagesUpload[0];
             setFileListBody(uploadFilesState);
+
         }
     }, [imagesUpload]);
 
 
     //edit map
-    useEffect(()=>{
-        const  data=editMapData
+    useEffect(() => {
+        const data = editMapData
         const initialEditorUz = [];
         const initialEditorRu = [];
         const initialFileListBodyProps = [];
@@ -167,8 +171,8 @@ const NewsPostEdit = () => {
                     url: `${process.env.REACT_APP_API_URL}/${data?.description[i]?.image?.path}`
                 }];
 
-                initialEditorUz.push(EditorState.createWithContent(convertFromHTML(data?.description[i]?.descriptionUz)));
-                initialEditorRu.push(EditorState.createWithContent(convertFromHTML(data?.description[i]?.descriptionRu)));
+                initialEditorUz.push(EditorState.createWithContent(convertFromHTML(data?.description[i]?.textUz)));
+                initialEditorRu.push(EditorState.createWithContent(convertFromHTML(data?.description[i]?.textRu)));
                 initialFileListBodyProps.push(editDefaultImages);
                 initialFileListBody.push(data?.description[i]?.image);
             }
@@ -179,7 +183,7 @@ const NewsPostEdit = () => {
             return {
                 textUz: description.textUz,
                 textRu: description.textRu,
-                bodyImages: description.image
+                mediaId: description.image
             };
         });
 
@@ -188,7 +192,7 @@ const NewsPostEdit = () => {
             const edit = {
                 titleUz: data?.titleUz,
                 titleRu: data?.titleRu,
-                items: bodyDefault,
+                description: bodyDefault,
             };
             setFileListBody(initialFileListBody);
             setFileListBodyProps(initialFileListBodyProps);
@@ -196,8 +200,7 @@ const NewsPostEdit = () => {
             setEditorStatesRu(initialEditorRu);
             form.setFieldsValue(edit);
         }
-    },[editMapData])
-
+    }, [editMapData])
 
 
     const onFinish = (values) => {
@@ -208,35 +211,32 @@ const NewsPostEdit = () => {
         const itemsWithHtmlContentRu = editorStatesRu.map((state) => {
             return convertToHTML(state.getCurrentContent());
         });
-        const body = [];
+        const description = [];
 
         for (let i = 0; i < itemsWithHtmlContentUz.length; i++) {
             const item = {
-                "descriptionUz": itemsWithHtmlContentUz[i],
-                "descriptionRu": itemsWithHtmlContentRu[i],
-                "image": {
-                    "_id": fileListBody[i]?._id,
-                    "name": fileListBody[i]?.name,
-                    "location":fileListBody[i]?.location
-                }
+                "textUz": itemsWithHtmlContentUz[i],
+                "textRu": itemsWithHtmlContentRu[i],
+                "mediaId": fileListBody[i]?._id
             };
-            body.push(item);
+            description.push(item);
         }
 
         const data = {
-            body,
+            description,
             titleUz: values?.titleUz,
             titleRu: values?.titleRu
         };
-
+        console.log(data)
         if (editMapSuccess) {
-            putMap({ url: "/news", data, id: editId });
+            putMap({url: "/news", data, id: editMapData?._id});
         } else {
-            postMapMutate({ url: "/news", data });
+            postMapMutate({url: "/news", data});
         }
 
 
     }
+    console.log(fileListBody)
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
     };
@@ -255,7 +255,7 @@ const NewsPostEdit = () => {
             const id = fileListBody[index]._id;
             fileListBodyProps.splice(index, 1);
             fileListBody.splice(index, 1);
-            imagesDeleteMutate({ url: "/media", id });
+            imagesDeleteMutate({url: "/medias", id});
         }
         remove(name);
     };
@@ -263,29 +263,29 @@ const NewsPostEdit = () => {
 
     // refresh page again get data
 
-  useEffect(() => {
-    const storedValues = JSON.parse(localStorage.getItem('myFormValues'));
-    if (storedValues) {
-        storedValues.images=[]
-      form.setFieldsValue(storedValues);
-    }
+    useEffect(() => {
+        const storedValues = JSON.parse(localStorage.getItem('myFormValues'));
+        if (storedValues) {
+            storedValues.images = []
+            form.setFieldsValue(storedValues);
+        }
 
-    const handleBeforeUnload = () => {
-        
+        const handleBeforeUnload = () => {
+
             localStorage.setItem(
-              'myFormValues',
-              JSON.stringify(form.getFieldsValue()),
+                'myFormValues',
+                JSON.stringify(form.getFieldsValue()),
             );
-    };
+        };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+        window.addEventListener('beforeunload', handleBeforeUnload);
 
-    return ()=>{
-        localStorage.removeItem('editDataId')
-        localStorage.removeItem('myFormValues')
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-    }
-  }, []);
+        return () => {
+            localStorage.removeItem('editDataId')
+            localStorage.removeItem('myFormValues')
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        }
+    }, []);
 
     // Handle editor state change
     const onEditorStateChangeUz = (index, editorState) => {
@@ -299,30 +299,30 @@ const NewsPostEdit = () => {
         setEditorStatesRu(updatedEditorStates);
     };
 
-    const onChangeBodyImage = (index, { fileList: newFileList }) => {
+    const onChangeBodyImage = (index, {fileList: newFileList}) => {
         setMainIndex(index);
-
+        console.log(index)
 
         const getValue = form.getFieldsValue();
-        const itemsValue = getValue.items;
-        itemsValue[index].bodyImages = newFileList;
-        form.setFieldsValue({ items: itemsValue });
+        const itemsValue = getValue.description;
+        itemsValue[index].mediaId = newFileList;
+        form.setFieldsValue({description: itemsValue});
 
         const updateImageStates = [...fileListBodyProps];
         updateImageStates[index] = newFileList;
         setFileListBodyProps(updateImageStates);
 
         if (fileListBody[index] || newFileList.length === 0) {
-            const id = fileListBody[index]._id;
-            imagesDeleteMutate({ url: "/media", id });
-            fileListBody.splice(index, 1);
+            const id = fileListBody[index]?._id;
+            imagesDeleteMutate({url: "/medias", id});
+            fileListBody[index] = null;
             setFileListBody(fileListBody);
 
         }
         const formData = new FormData();
         if (newFileList.length !== 0) {
             formData.append("media", newFileList[0].originFileObj);
-            imagesUploadMutate({ url: "/media", formData });
+            imagesUploadMutate({url: "/medias", formData});
 
         }
     };
@@ -344,7 +344,7 @@ const NewsPostEdit = () => {
 
     return (
         <div>
-            {( postMapLoading ||editMapLoading ||putMapLoading || imagesUploadLoading) ?
+            {(postMapLoading || editMapLoading || putMapLoading || imagesUploadLoading) ?
                 <AppLoader/> :
                 <Form
                     form={form}
@@ -363,48 +363,70 @@ const NewsPostEdit = () => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
-                    <Form.Item
-                        label="Название статьи Ru"
-                        name="titleRu"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Требуется название статьи"
-                            }
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Maqola sarlavhasi uz"
-                        name="titleUz"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Maqola sarlavhasi talab qilinadi"
-                            }
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
+                    <Row gutter={20}>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Название статьи Ru"
+                                name="titleRu"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Требуется название статьи"
+                                    }
+                                ]}
+                            >
+                                <Input/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Maqola sarlavhasi uz"
+                                name="titleUz"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Maqola sarlavhasi talab qilinadi"
+                                    }
+                                ]}
+                            >
+                                <Input/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
 
-                    <Form.List name="items">
-                        {(fields, { add, remove }) => (
+                    <Form.List name="description">
+                        {(fields, {add, remove}) => (
                             <>
                                 {fields.map((field, index) => {
                                     const editorStateUz = editorStatesUz[index] || EditorState.createEmpty();
                                     const editorStateRu = editorStatesRu[index] || EditorState.createEmpty();
                                     const editorFileList = fileListBodyProps[index] || [];
                                     return (
-                                        <div key={field.fieldKey} style={{ marginBottom: 20 }}>
+                                        <div key={field.fieldKey} style={{marginBottom: 20}}>
                                             <Space align={"start"}>
 
+
+                                                <Form.Item
+                                                    label={`Maqola matn ${index + 1}`}
+                                                    name={[field.name, "textUz"]}
+                                                    rules={[
+                                                        {required: true, message: "Maqola matn talab qilinadi"}
+                                                    ]}
+                                                    style={{width: "100%"}}
+                                                >
+                                                    <Editor
+                                                        editorState={editorStateUz}
+                                                        onEditorStateChange={(state) => onEditorStateChangeUz(index, state)}
+                                                        editorClassName="editor-class"
+                                                        toolbarClassName="toolbar-class"
+                                                    />
+                                                </Form.Item>
                                                 <Form.Item
                                                     label={`Текст статьи ${index + 1}`}
                                                     name={[field.name, "textRu"]}
                                                     rules={[
-                                                        { required: true, message: "Требуется текст статьи" }
+                                                        {required: true, message: "Требуется текст статьи"}
                                                     ]}
                                                 >
                                                     <Editor
@@ -414,27 +436,15 @@ const NewsPostEdit = () => {
                                                         toolbarClassName="toolbar-class"
                                                     />
                                                 </Form.Item>
-                                                <Form.Item
-                                                    label={`Maqola matn ${index + 1}`}
-                                                    name={[field.name, "textUz"]}
-                                                    rules={[
-                                                        { required: true, message: "Maqola matn talab qilinadi" }
-                                                    ]}
-                                                    style={{ width: "100%" }}
-                                                >
-                                                    <Editor
-                                                        editorState={editorStateUz}
-                                                        onEditorStateChange={(state) => onEditorStateChangeUz(index, state)}
-                                                        editorClassName="editor-class"
-                                                        toolbarClassName="toolbar-class"
-                                                    />
-                                                </Form.Item>
                                             </Space>
                                             <Form.Item
                                                 label={`(Изображение для текста статьи) ${index + 1}`}
                                                 name={[field.name, "mediaId"]}
                                                 rules={[
-                                                    { required: true, message: "Для текста статьи необходимо изображение" }
+                                                    {
+                                                        required: true,
+                                                        message: "Для текста статьи необходимо изображение"
+                                                    }
                                                 ]}
                                             >
                                                 <ImgCrop rotate>
@@ -452,7 +462,7 @@ const NewsPostEdit = () => {
                                             </Form.Item>
 
                                             <MinusCircleOutlined
-                                                onClick={() => handleRemove(field.name, remove, index, editorStateUz, editorStateRu, editorFileList)} />
+                                                onClick={() => handleRemove(field.name, remove, index, editorStateUz, editorStateRu, editorFileList)}/>
                                         </div>
 
                                     );
@@ -467,8 +477,8 @@ const NewsPostEdit = () => {
                         )}
                     </Form.List>
 
-                        <Button type="primary" htmlType="submit" style={{width: "100%",marginTop:"20px"}}>
-                    {
+                    <Button type="primary" htmlType="submit" style={{width: "100%", marginTop: "20px"}}>
+                        {
                             editMapSuccess ? 'Edit' : 'Add'
                         }
                     </Button>
