@@ -25,7 +25,7 @@ const App = () => (
             <Provider store={store}>
                 <AppThemeProvider>
                     <AppLocaleProvider>
-                        <BrowserRouter>
+                        <BrowserRouter basename='/admin'>
                             <JWTAuthAuthProvider>
                                 <AuthRoutes>
                                     <AppLayout/>
