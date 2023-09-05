@@ -10,7 +10,7 @@ const SITE_URL =
 
 const FACEBOOK_APP_ID = 'XXXXXXXXX';
 
-const defaultTitle = 'Tashkent Market admin Panel';
+const defaultTitle = 'Leapmotor admin Panel';
 const defaultDescription =
   'Admin Panel';
 const defaultImage =
