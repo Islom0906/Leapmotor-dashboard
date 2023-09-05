@@ -1,8 +1,12 @@
 import React from 'react';
-import {MdOutlineCategory} from "react-icons/md";
 import {BsFillImageFill} from "react-icons/bs";
 import {IoIosStats} from 'react-icons/io'
-import {SlBasketLoaded} from 'react-icons/sl'
+import {FaFileContract, FaMapMarkerAlt} from "react-icons/fa";
+import {HiOutlineInbox} from "react-icons/hi";
+import {TiContacts} from "react-icons/ti";
+import {ImNewspaper} from "react-icons/im";
+// import {FiInfo} from "react-icons/fi";
+import {MdDriveEta} from "react-icons/md";
 
 
 const routesConfig = [
@@ -20,23 +24,23 @@ const routesConfig = [
         icon: <IoIosStats />,
         path: '/dashboard',
       },
-
-      {
-        id: 'map',
-        title: 'Map',
-        messageId: 'sidebar.sample.map',
-        type: 'item',
-        icon: <MdOutlineCategory />,
-        path: '/map',
-      },
       {
         id: 'product',
         title: 'Product',
         messageId: 'sidebar.sample.product',
         type: 'item',
-        icon: <BsFillImageFill />,
+        icon: <HiOutlineInbox />,
         path: '/product',
       },
+      {
+        id: 'map',
+        title: 'Map',
+        messageId: 'sidebar.sample.map',
+        type: 'item',
+        icon: <FaMapMarkerAlt />,
+        path: '/map',
+      },
+
       {
         id: 'banner',
         title: 'Banner',
@@ -66,7 +70,7 @@ const routesConfig = [
         title: 'Contact Inner',
         messageId: 'sidebar.sample.contact',
         type: 'item',
-        icon: <BsFillImageFill />,
+        icon: <TiContacts />,
         path: '/contact',
       },
       {
@@ -74,24 +78,32 @@ const routesConfig = [
         title: 'News',
         messageId: 'sidebar.sample.news',
         type: 'item',
-        icon: <BsFillImageFill />,
+        icon: <ImNewspaper />,
         path: '/news',
       },
+      // {
+      //   id: 'About',
+      //   title: 'About',
+      //   messageId: 'sidebar.sample.about',
+      //   type: 'item',
+      //   icon: <FiInfo />,
+      //   path: '/about',
+      // },
       {
-        id: 'About',
-        title: 'About',
-        messageId: 'sidebar.sample.about',
+        id: 'testDrive',
+        title: 'Test Drive',
+        messageId: 'sidebar.sample.testDrive',
         type: 'item',
-        icon: <BsFillImageFill />,
-        path: '/about',
+        icon: <MdDriveEta />,
+        path: '/testDrive',
       },
       {
-        id: 'orders',
-        title: 'Orders',
-        messageId: 'sidebar.sample.orders',
+        id: 'dealers',
+        title: 'Dealers',
+        messageId: 'sidebar.sample.dealers',
         type: 'item',
-        icon: <SlBasketLoaded />,
-        path: '/orders',
+        icon: <FaFileContract />,
+        path: '/dealers',
       },
     ],
   },

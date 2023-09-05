@@ -1,7 +1,7 @@
 import React from 'react';
-import OrderChart from './OrderChart';
-import ProductChart from './ProductChart';
-import ProductByCategoryChart from './ProductByCategoryChart';
+import DealersChart from './dealersChart';
+import TestDriveChart from './testDriveChart';
+// import ProductByCategoryChart from './ProductByCategoryChart';
 
 
 
@@ -10,9 +10,9 @@ import ProductByCategoryChart from './ProductByCategoryChart';
 const Dashboard = () => {
     return (
         <div>
-           <OrderChart/>
-           <ProductChart/>
-            <ProductByCategoryChart/>
+           <DealersChart/>
+           <TestDriveChart/>
+           {/* <ProductByCategoryChart/>*/}
         </div>
     );
 };

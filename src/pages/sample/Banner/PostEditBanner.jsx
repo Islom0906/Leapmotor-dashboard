@@ -102,7 +102,7 @@ const PostEditBanner = () => {
     if (editBannerSuccess && deleteImage3?.uid) {
       delImage.push(deleteImage3?.uid)
     }
-    if (editBannerSuccess && (deleteImage?.uid || deleteImage2?.uid || deleteImage3)) {
+    if (editBannerSuccess && (deleteImage?.uid || deleteImage2?.uid || deleteImage3) && deleteImage.length>0 ) {
       const ids={
         ids:delImage
       }

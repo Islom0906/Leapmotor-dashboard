@@ -75,8 +75,7 @@ const PostEditAbout = () => {
         data: postBanner,
         isLoading: postBannerLoading,
         isSuccess: postBannerSuccess,
-        error: postBannerError,
-        isError: postBannerIsError,
+
     } = useMutation(({url, data}) => apiService.postData(url, data),
         {
             onSuccess: () => message.success('Success'),
@@ -112,8 +111,7 @@ const PostEditAbout = () => {
         isLoading: putBannerLoading,
         data: putData,
         isSuccess: putBannerSuccess,
-        error: putBannerError,
-        isError: putBannerIsError,
+
     } = useMutation(({url, data, id}) => apiService.editData(url, data, id), {
         onError: (error) => message.error(error.message)
     });
@@ -123,7 +121,6 @@ const PostEditAbout = () => {
             onError: (error) => message.error(error.message)
         }
     );
-
     // product success
     useEffect(() => {
         if (putBannerSuccess) {
@@ -135,16 +132,15 @@ const PostEditAbout = () => {
             navigate('/about');
         }
     }, [postBanner, putData]);
-
     // product error
-    useEffect(() => {
-        if (postBannerIsError) {
-            message.error(postBannerError.message);
-        }
-        if (putBannerIsError) {
-            message.error(putBannerError.message);
-        }
-    }, [postBannerError, putBannerError]);
+    // useEffect(() => {
+    //     if (postBannerIsError) {
+    //         message.error(postBannerError.message);
+    //     }
+    //     if (putBannerIsError) {
+    //         message.error(putBannerError.message);
+    //     }
+    // }, [postBannerError, putBannerError]);
 
     // if edit product
     useEffect(() => {
@@ -163,8 +159,6 @@ const PostEditAbout = () => {
     //edit product
     useEffect(() => {
         const data=editProductData
-
-
         const initialTeam = [];
         const initialFileListTeam = [];
         const initialFileListPropsTeam = [];
@@ -234,7 +228,6 @@ const PostEditAbout = () => {
             url: `${process.env.REACT_APP_API_URL}/${data?.video?.path}`
         }]
 
-
         if (editProductSuccess) {
             console.log(data);
             const edit = {
@@ -269,12 +262,9 @@ const PostEditAbout = () => {
             console.log(initialFileListPropsSystem)
         }
 
-
     }, [editProductData]);
 
     // post product
-
-    console.log(fileListTeam)
     const onFinish = (values) => {
 
         const team = [];
@@ -334,7 +324,6 @@ const PostEditAbout = () => {
             postBannerMutate({url: "/about", data});
         }
 
-
     }
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -347,6 +336,37 @@ const PostEditAbout = () => {
             setFileListMain(imagesUpload);
             setIsUploadMain(false)
         }
+        if (imagesUploadSuccess && fileListPropsVideo[0]?.originFileObj?.uid && isUploadVideo){
+            setFileListVideo(imagesUpload);
+            setIsUploadVideo(false)
+        }
+        if (imagesUploadSuccess && fileListPropsResearch[0]?.originFileObj?.uid && isUploadResearch){
+            setFileListResearch(imagesUpload);
+            setIsUploadResearch(false)
+        }
+        const uploadFilesStateTeam = [...fileListTeam];
+        if (imagesUploadSuccess && fileListPropsTeam[mainIndexTeam]&& isUploadTeam) {
+            uploadFilesStateTeam[mainIndexTeam] = imagesUpload[0];
+            setFileListTeam(uploadFilesStateTeam);
+            const getValue = form.getFieldsValue();
+            const itemsValue = getValue?.team;
+            itemsValue[mainIndexTeam].mediaId = fileListPropsTeam[mainIndexTeam];
+            form.setFieldsValue({ items: itemsValue });
+            console.log(itemsValue)
+            setIsUploadTeam(false)
+        }
+        const uploadFilesStateSystem = [...fileListSystem];
+        if (imagesUploadSuccess && fileListPropsSystem[mainIndexResearch] && isUploadSystem) {
+            uploadFilesStateSystem[mainIndexResearch] = imagesUpload[0];
+            setFileListSystem(uploadFilesStateSystem);
+            const getValue = form.getFieldsValue();
+            const itemsValue = getValue.systems;
+            itemsValue[mainIndexResearch].mediaId = fileListPropsSystem[mainIndexResearch];
+            form.setFieldsValue({ items: itemsValue });
+            console.log(itemsValue)
+            setIsUploadSystem(false)
+
+        }
     }, [imagesUpload]);
     const onChangeMain = ({ fileList: newFileList }) => {
         console.log(newFileList);
@@ -357,7 +377,6 @@ const PostEditAbout = () => {
             const id = fileListMain[0]?._id;
             imagesDeleteMutate({ url: "/medias", id });
             setFileListMain([])
-
         }
         const formData = new FormData();
 
@@ -367,15 +386,11 @@ const PostEditAbout = () => {
             imagesUploadMutate({ url: "/medias", formData });
             setIsUploadMain(true)
         }
+
     };
 
 
-    useEffect(() => {
-        if (imagesUploadSuccess && fileListPropsVideo[0]?.originFileObj?.uid && isUploadVideo){
-            setFileListVideo(imagesUpload);
-            setIsUploadVideo(false)
-        }
-    }, [imagesUpload]);
+
 
     const onChangeVideo = ({ fileList: newFileList }) => {
         console.log(newFileList);
@@ -389,23 +404,15 @@ const PostEditAbout = () => {
 
         }
         const formData = new FormData();
-
         if (newFileList.length !== 0) {
             console.log("render");
             formData.append("media", newFileList[0].originFileObj);
             imagesUploadMutate({ url: "/medias", formData });
             setIsUploadVideo(true)
-
         }
     };
 
 
-    useEffect(() => {
-        if (imagesUploadSuccess && fileListPropsResearch[0]?.originFileObj?.uid && isUploadResearch){
-            setFileListResearch(imagesUpload);
-            setIsUploadResearch(false)
-        }
-    }, [imagesUpload]);
 
     const onChangeResearch = ({ fileList: newFileList }) => {
 
@@ -419,7 +426,6 @@ const PostEditAbout = () => {
 
         }
         const formData = new FormData();
-
         if (newFileList.length !== 0) {
             formData.append("media", newFileList[0].originFileObj);
             imagesUploadMutate({ url: "/medias", formData });
@@ -427,23 +433,12 @@ const PostEditAbout = () => {
         }
     };
 
-    useEffect(() => {
-        const uploadFilesState = [...fileListTeam];
-        if (imagesUploadSuccess && fileListPropsTeam[mainIndexTeam]&& isUploadTeam) {
-            uploadFilesState[mainIndexTeam] = imagesUpload[0];
-            setFileListTeam(uploadFilesState);
-            setIsUploadTeam(false)
-        }
-    }, [imagesUpload]);
     const onChangeAboutImage = (index, { fileList: newFileList }) => {
         setMainIndexTeam(index);
-
-        const getValue = form.getFieldsValue();
-        const itemsValue = getValue?.team;
-        itemsValue[index].mediaId = newFileList;
-
-        form.setFieldsValue({ items: itemsValue });
-        console.log(itemsValue,index)
+        // const getValue = form.getFieldsValue();
+        // const itemsValue = getValue?.team;
+        // itemsValue[index].mediaId = newFileList;
+        // form.setFieldsValue({ items: itemsValue });
         const updateImageStates = [...fileListPropsTeam];
         updateImageStates[index] = newFileList;
         setFileListPropsTeam(updateImageStates);
@@ -464,30 +459,15 @@ const PostEditAbout = () => {
         }
     };
 
-    useEffect(() => {
-        console.log(imagesUpload)
-        const uploadFilesState = [...fileListSystem];
-        if (imagesUploadSuccess && fileListPropsSystem[mainIndexResearch] && isUploadSystem) {
-            uploadFilesState[mainIndexResearch] = imagesUpload[0];
-            setFileListSystem(uploadFilesState);
-            setIsUploadSystem(false)
 
-        }
-    }, [imagesUpload]);
     const onChangeSystemsImage = (index, { fileList: newFileList }) => {
         setMainIndexResearch(index);
+        // const getValue = form.getFieldsValue();
+        // const itemsValue = getValue.systems;
+        // itemsValue[index].mediaId = newFileList;
+        // form.setFieldsValue({ items: itemsValue });
 
-        const getValue = form.getFieldsValue();
-        const itemsValue = getValue.systems;
-        if (itemsValue[index].mediaId){
-
-        itemsValue[index].mediaId = newFileList;
-        form.setFieldsValue({ items: itemsValue });
-
-        }
-
-
-        const updateImageStates = [...fileListPropsTeam];
+        const updateImageStates = [...fileListPropsSystem];
         updateImageStates[index] = newFileList;
         setFileListPropsSystem(updateImageStates);
 
@@ -607,7 +587,7 @@ const PostEditAbout = () => {
                                         message: 'Требуется текст RU!',
                                     },
                                 ]}>
-                                <Input/>
+                                <TextArea rows={4}   />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
@@ -620,7 +600,7 @@ const PostEditAbout = () => {
                                         message: 'Text kiritish talab qilinadi Uz!',
                                     },
                                 ]}>
-                                <Input/>
+                                <TextArea rows={4}   />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -798,8 +778,8 @@ const PostEditAbout = () => {
                                     );
                                 })}
                                 <Form.Item>
-                                    <Button type="primary" onClick={() => add()} block>
-                                        Add Item
+                                    <Button type="primary" onClick={() => add()} block style={{backgroundColor:'#28a745'}}>
+                                        Добавьте предмет
                                     </Button>
                                 </Form.Item>
 
@@ -1016,8 +996,8 @@ const PostEditAbout = () => {
                                     );
                                 })}
                                 <Form.Item>
-                                    <Button  type='primary' onClick={() => add()} block>
-                                        Add Item
+                                    <Button  type='primary' onClick={() => add()} block style={{backgroundColor:'#28a745'}}>
+                                        Добавьте предмет
                                     </Button>
                                 </Form.Item>
 

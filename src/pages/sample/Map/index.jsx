@@ -28,7 +28,6 @@ const Index = () => {
       // Handle the error
     },
   });
-  console.log(data)
   const [search, setSearch] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
   const deleteHandle = (url, id) => {

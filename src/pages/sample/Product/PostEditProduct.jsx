@@ -378,7 +378,7 @@ const PostEditProduct = () => {
                   label='Изображение логотипа'
                   name={'mediaLogoId'}
                   rules={[{required: true, message: 'Требуется загрузка изображения логотипа'}]}>
-                <ImgCrop rotate>
+                <ImgCrop>
                   <Upload
                       maxCount={1}
                       fileList={fileListProps}

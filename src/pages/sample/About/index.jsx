@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import AboutTable from "./AboutTable";
 import {Button, Col, Input, message, Row, Space, Spin} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import apiService from "../../../@crema/services/apis/api";
-import {useMutation, useQuery} from "react-query";
+import { useQuery} from "react-query";
 import {EDIT_DATA} from "../../../shared/constants/ActionTypes";
 import {useDispatch} from "react-redux";
 
@@ -12,11 +12,8 @@ import {useDispatch} from "react-redux";
 const Index = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {mutate, isSuccess, isLoading: deleteCategoryLoading} = useMutation(({
-                                                                                  url,
-                                                                                  id
-                                                                              }) => apiService.deleteData(url, id))
-    const {data, isLoading: getCategoryLoading, refetch} = useQuery('about-get', () =>
+
+    const {data, isLoading: getCategoryLoading} = useQuery('about-get', () =>
             apiService.getData('/about'), {
             // enabled:false,
             onError: (error) => {
@@ -28,17 +25,9 @@ const Index = () => {
     );
     const [search,setSearch]=useState([])
     const [isSearch,setIsSearch]=useState(false)
-    const deleteHandle = (url, id) => {
-        mutate({url, id})
-
-    }
 
 
-    useEffect(() => {
-        if (isSuccess) {
-            refetch()
-        }
-    }, [isSuccess])
+
 
     const addArticle = () => {
         dispatch({type: EDIT_DATA, payload: ""})
@@ -64,13 +53,13 @@ const Index = () => {
                         <Input onChange={(e)=>serachProduct(e.target.value)}/>
                     </Col>
                     <Col span={8}>
-                        <Button  type="primary" icon={<PlusOutlined/>} style={{width: '100%'}} onClick={addArticle}>
+                        <Button disabled={data?.length> 0 ? true : false} type="primary" icon={<PlusOutlined/>} style={{width: '100%'}} onClick={addArticle}>
                             Add
                         </Button>
                     </Col>
                 </Row>
-                <Spin size='medium' spinning={getCategoryLoading || deleteCategoryLoading}>
-                    <AboutTable data={isSearch ? search : data} deleteHandle={deleteHandle}/>
+                <Spin size='medium' spinning={getCategoryLoading}>
+                    <AboutTable data={isSearch ? search : data} />
                 </Spin>
             </Space>
 

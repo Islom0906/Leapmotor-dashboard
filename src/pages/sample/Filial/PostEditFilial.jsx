@@ -168,7 +168,6 @@ const PostEditFilial = () => {
 
     };
 
-    console.log(data)
     if (imagesUploadSuccess && !editFilialtSuccess) {
       postFilialMutate({url: '/filial', data});
     } else if (isNotEditImages || imagesUploadSuccess) {
