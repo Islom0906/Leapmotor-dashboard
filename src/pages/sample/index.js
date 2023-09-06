@@ -15,8 +15,8 @@ const Contact = React.lazy(() => import('./Contact'));
 const PostEditContact = React.lazy(() => import('./Contact/ContactPostEdit'));
 const News = React.lazy(() => import('./News'));
 const NewsPostEdit = React.lazy(() => import('./News/NewsPostEdit'));
-// const About = React.lazy(() => import('./About'));
-// const AboutPostEdit = React.lazy(() => import('./About/PostEditAbout'));
+const About = React.lazy(() => import('./About'));
+const AboutPostEdit = React.lazy(() => import('./About/PostEditAbout'));
 const TestDrive = React.lazy(() => import('./TestDrive'));
 const Dealers = React.lazy(() => import('./Dealers'));
 const Dashboard = React.lazy(() => import('./Dashboard'));
@@ -109,14 +109,14 @@ export const samplePagesConfigs = [
     path: '/news',
     element: <News />,
   },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/about/add',
-  //   element: <AboutPostEdit />,
-  // },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/about',
-  //   element: <About />,
-  // },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/about/add',
+    element: <AboutPostEdit />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/about',
+    element: <About />,
+  },
 ];

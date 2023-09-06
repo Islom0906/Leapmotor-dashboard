@@ -7,6 +7,7 @@ import {TiContacts} from "react-icons/ti";
 import {ImNewspaper} from "react-icons/im";
 // import {FiInfo} from "react-icons/fi";
 import {MdDriveEta} from "react-icons/md";
+import {FiInfo} from "react-icons/fi";
 
 
 const routesConfig = [
@@ -81,14 +82,14 @@ const routesConfig = [
         icon: <ImNewspaper />,
         path: '/news',
       },
-      // {
-      //   id: 'About',
-      //   title: 'About',
-      //   messageId: 'sidebar.sample.about',
-      //   type: 'item',
-      //   icon: <FiInfo />,
-      //   path: '/about',
-      // },
+      {
+        id: 'About',
+        title: 'About',
+        messageId: 'sidebar.sample.about',
+        type: 'item',
+        icon: <FiInfo />,
+        path: '/about',
+      },
       {
         id: 'testDrive',
         title: 'Test Drive',
