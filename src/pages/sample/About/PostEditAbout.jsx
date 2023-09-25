@@ -155,10 +155,8 @@ const PostEditAbout = () => {
     useEffect(() => {
         const data=editProductData
         const initialTeam = [];
-        // const initialFileListTeam = [];
         const initialFileListPropsTeam = [];
         const initialSystem = [];
-        // const initialFileListSystem = [];
         const initialFileListPropsSystem = [];
 
         if(data!==undefined){
@@ -242,15 +240,11 @@ const PostEditAbout = () => {
                 aboutsysDescriptionUz:data?.aboutSystems.descriptionUz,
                 systems:initialSystem,
             };
-            // setFileListMain([data?.mainSection?.imageMain])
             setFileListPropsMain(mainSectionImage)
             setFileListVideo([data?.video])
             setFileListPropsVideo(video)
-            // setFileListTeam(initialFileListTeam)
             setFileListPropsTeam(initialFileListPropsTeam)
-            // setFileListResearch([data?.research.image])
             setFileListPropsResearch(researchImage)
-            // setFileListSystem(initialFileListSystem)
             setFileListPropsSystem(initialFileListPropsSystem)
             form.setFieldsValue(edit);
 

@@ -34,7 +34,6 @@ const MapPostEdit = () => {
 
 
     const [latLng, setlatLng] = useState({lat:null,lng:null});
-    console.log(latLng)
     // query-map
     const {
         mutate: postMapMutate,
@@ -140,7 +139,6 @@ const MapPostEdit = () => {
 
     const onFinish = (values) => {
 
-        console.log(values)
         const data={...values,lat:`${latLng.lat}`,lng:`${latLng.lng}`}
 
 
@@ -196,7 +194,6 @@ const MapPostEdit = () => {
         };
         setlatLng(clickedLatLng)
         form.setFieldsValue({lat:clickedLatLng.lat})
-        console.log('Clicked LatLng:', clickedLatLng);
     };
     const mapStyles = {
         height: '400px',
@@ -207,7 +204,6 @@ const MapPostEdit = () => {
         lng: 69.279696,
     };
 
-    console.log(latLng)
     return (
         <div>
             {( postMapLoading ||editMapLoading ||putMapLoading) ?

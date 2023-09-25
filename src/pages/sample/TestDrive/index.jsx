@@ -78,7 +78,7 @@ const Orders = () => {
         <Table
           columns={columns}
           dataSource={reverseData}
-          rowKey={(record) => record?.id}
+          rowKey={(record) => record?._id}
         />
       </Spin>
     </div>

@@ -15,7 +15,16 @@ const Index = () => {
     const {mutate, isSuccess, isLoading: deleteCategoryLoading} = useMutation(({
                                                                                   url,
                                                                                   id
-                                                                              }) => apiService.deleteData(url, id))
+                                                                              }) => apiService.deleteData(url, id),{
+        onSuccess:()=>{
+            message.success("Success");
+        },
+        onError: (error) => {
+
+            message.error(error.message);
+            // Handle the error
+        },
+    })
     const {data, isLoading: getCategoryLoading, refetch} = useQuery('product-get', () =>
             apiService.getData('/product'), {
             // enabled:false,
