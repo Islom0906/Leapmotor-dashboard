@@ -142,7 +142,7 @@ const ExteriorPostEdit = () => {
             delImage.push(deleteImage?.uid)
         }
         if (editExteriorSuccess && deleteImage2?.uid) {
-            delImage.push(deleteImage?.uid)
+            delImage.push(deleteImage2?.uid)
         }
         if (editExteriorSuccess && (deleteImage?.uid || deleteImage2?.uid)) {
             const ids = {
@@ -489,7 +489,7 @@ const ExteriorPostEdit = () => {
                     <Row gutter={20}>
                         <Col span={12}>
                             <Form.Item
-                                label='Изображение логотипа'
+                                label='Изображение баннер'
                                 name={'mediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения баннер'}]}>
                                 <ImgCrop>
@@ -508,7 +508,7 @@ const ExteriorPostEdit = () => {
                         </Col>
                         <Col span={12}>
                             <Form.Item
-                                label='Изображение логотипа'
+                                label='Изображение цвет'
                                 name={'colorMediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения цвет'}]}>
                                 <ImgCrop>

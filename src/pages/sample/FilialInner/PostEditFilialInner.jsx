@@ -23,10 +23,9 @@ const PostEditFilialInner = () => {
     const [fileList, setFileList] = useState([]);
     const [valuesForm, setValues] = useState({});
     const [isNotEditImages, setIsNotEditImages] = useState(false);
-    const [deleteImage, setDeleteImage] = useState({});
+    const [deleteImage, setDeleteImage] = useState([]);
 
 
-    console.log(deleteImage)
     // query-filialInner
     const {
         mutate: postFilialInnerMutate,
@@ -88,12 +87,13 @@ const PostEditFilialInner = () => {
         if (putFilialInnerSuccess) {
             dispatch({type: EDIT_DATA, payload: ''});
         }
-        // deleteImage?.map = (image => {
-        //     if (editFilialInnerSuccess && image?.uid) {
-        //         delImage.push(image?.uid)
-        //     }
-        //
-        // })
+
+        deleteImage?.map(image => {
+            if (editFilialInnerSuccess && image?.uid) {
+                delImage.push(image?.uid)
+            }
+
+        })
 
         if (editFilialInnerSuccess &&delImage.length>0) {
             const ids = {
@@ -145,7 +145,6 @@ const PostEditFilialInner = () => {
             };
             imagesInitial.push(editDefaultImages);
         }
-        console.log(editFilialInnerData)
         if (editFilialInnerSuccess) {
             const edit = {
                 mediaId: imagesInitial,
@@ -194,13 +193,10 @@ const PostEditFilialInner = () => {
         }
 
 
-        console.log(patchImagesAndInitialImages);
-        console.log(imageData)
         const data = {
             mediaId: imageData,
 
         };
-        console.log(data)
         if (imagesUploadSuccess && !editFilialInnerSuccess) {
             postFilialInnerMutate({url: '/filialInner', data});
         } else if (isNotEditImages || imagesUploadSuccess) {
@@ -249,7 +245,9 @@ const PostEditFilialInner = () => {
 
     const handleRemoveImage = (file) => {
         if (editFilialInnerSuccess) {
-            setDeleteImage(file);
+            const updateDeleteImage=[...deleteImage]
+            updateDeleteImage.push(file)
+            setDeleteImage(updateDeleteImage);
         }
     };
 

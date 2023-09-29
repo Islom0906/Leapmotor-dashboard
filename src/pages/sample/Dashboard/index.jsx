@@ -1,7 +1,7 @@
 import React from 'react';
 import DealersChart from './dealersChart';
 import TestDriveChart from './testDriveChart';
-// import ProductByCategoryChart from './ProductByCategoryChart';
+import OrderChart from './OrderChart';
 
 
 
@@ -12,7 +12,7 @@ const Dashboard = () => {
         <div>
            <DealersChart/>
            <TestDriveChart/>
-           {/* <ProductByCategoryChart/>*/}
+            <OrderChart/>
         </div>
     );
 };

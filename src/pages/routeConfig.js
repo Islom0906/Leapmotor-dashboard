@@ -1,7 +1,7 @@
 import React from 'react';
-import {BsFillImageFill} from "react-icons/bs";
+import {BsCarFrontFill, BsFillImageFill} from "react-icons/bs";
 import {IoIosStats} from 'react-icons/io'
-import {FaFileContract, FaMapMarkerAlt} from "react-icons/fa";
+import {FaBook, FaFileContract, FaMapMarkerAlt} from "react-icons/fa";
 import {HiOutlineInbox} from "react-icons/hi";
 import {TiContacts} from "react-icons/ti";
 import {ImNewspaper} from "react-icons/im";
@@ -91,43 +91,44 @@ const routesConfig = [
         path: '/about',
       },
       {
-        id: 'Position',
-        title: 'Position',
-        messageId: 'sidebar.sample.position',
-        type: 'item',
-        icon: <FiInfo />,
-        path: '/position',
-      },
-      {
-        id: 'Exterior',
-        title: 'Exterior',
-        messageId: 'sidebar.sample.exterior',
-        type: 'item',
-        icon: <FiInfo />,
-        path: '/exterior',
-      },
-      {
-        id: 'Interior',
-        title: 'Interior',
-        messageId: 'sidebar.sample.interior',
-        type: 'item',
-        icon: <FiInfo />,
-        path: '/interior',
-      },
-      {
-        id: 'Option',
-        title: 'Option',
-        messageId: 'sidebar.sample.option',
-        type: 'item',
-        icon: <FiInfo />,
-        path: '/option',
+        id: 'order-car',
+        title: 'Order Car',
+        messageId: 'sidebar.order',
+        icon: <BsCarFrontFill />,
+        type: 'collapse',
+        children:[
+          {
+            id: 'Position',
+            title: 'Position',
+            messageId: 'sidebar.order.position',
+            path: '/position',
+          },
+          {
+            id: 'Exterior',
+            title: 'Exterior',
+            messageId: 'sidebar.order.exterior',
+            path: '/exterior',
+          },
+          {
+            id: 'Interior',
+            title: 'Interior',
+            messageId: 'sidebar.order.interior',
+            path: '/interior',
+          },
+          {
+            id: 'Option',
+            title: 'Option',
+            messageId: 'sidebar.order.option',
+            path: '/option',
+          },
+        ]
       },
       {
         id: 'order',
         title: 'Order',
         messageId: 'sidebar.sample.order',
         type: 'item',
-        icon: <MdDriveEta />,
+        icon: <FaBook />,
         path: '/order',
       },
       {

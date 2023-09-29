@@ -113,6 +113,8 @@ const OptionPostEdit = () => {
         }
     });
 
+    // delete image
+
     const {mutate: imagesDeleteMutate} = useMutation(({url, ids}) => apiService.deleteImages(url, ids), {
         onSuccess: () => message.success('Success'), onError: (error) => message.error(error.message)
     });
@@ -230,7 +232,7 @@ const OptionPostEdit = () => {
                 exterior: editExteriorData.exterior,
                 interior: editExteriorData.interior,
                 name: editExteriorData.name,
-                bonus: editExteriorData.bonus,
+                bonus: "",
                 includeComment: editExteriorData.includeComment,
                 price: editExteriorData.price === 0 ? null : editExteriorData.price,
                 mainMediaId: imageInitialMain,
@@ -282,7 +284,7 @@ const OptionPostEdit = () => {
             exterior: values.exterior,
             interior: values.interior,
             name: values.name,
-            bonus: values.bonus,
+            bonus: "",
             includeComment: values.includeComment,
             price: (values.price === null || values.price === "") ? 0 : values.price,
             bannerMediaId: fileListPropsBanner[0]?.uid,
@@ -423,8 +425,12 @@ const OptionPostEdit = () => {
     const onChangeBanner = ({fileList: newFileList}) => {
         form.setFieldsValue({bannerMediaId: newFileList});
         if (fileListPropsBanner.length !== 0 || newFileList.length === 0) {
-            const id = fileListPropsBanner[0]?.uid;
-            imagesDeleteMutate({url: "/medias", id});
+            let id=[fileListPropsBanner[0]?.uid]
+
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({url: "/medias", ids});
             setFileListPropsBanner([])
         }
         const formData = new FormData();
@@ -440,8 +446,11 @@ const OptionPostEdit = () => {
 
         form.setFieldsValue({mainMediaId: newFileList});
         if (fileListPropsMain.length !== 0 || newFileList.length === 0) {
-            const id = fileListPropsMain[0]?.uid;
-            imagesDeleteMutate({url: "/medias", id});
+            const id = [fileListPropsMain[0]?.uid];
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({url: "/medias", ids});
             setFileListPropsMain([])
         }
         const formData = new FormData();
@@ -458,8 +467,11 @@ const OptionPostEdit = () => {
 
 
         if (fileListPropsIncludes[index] || newFileList.length === 0) {
-            const id = fileListPropsIncludes[index].uid;
-            imagesDeleteMutate({url: "/medias", id});
+            const id = [fileListPropsIncludes[index][0].uid];
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({url: "/medias", ids});
             fileListPropsIncludes[index] = null;
             setFileListPropsInludes(fileListPropsIncludes);
 
@@ -476,11 +488,16 @@ const OptionPostEdit = () => {
 
     // handleRemoveIncludes
     const handleRemoveIncludes = (name, remove, index, editorFileList) => {
+        console.log(index)
+            console.log(editorFileList)
+            console.log(fileListPropsIncludes)
         if (editorFileList === fileListPropsIncludes[index] && fileListPropsIncludes.length > 0) {
-            const id = fileListPropsIncludes[index]?.mediaId?.uid;
+            const id = [fileListPropsIncludes[index][0]?.uid];
             fileListPropsIncludes.splice(index, 1);
-
-            imagesDeleteMutate({url: "/medias", id});
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({url: "/medias", ids});
         }
         remove(name);
     };
@@ -632,16 +649,16 @@ const OptionPostEdit = () => {
                 </Row>
 
                 <Row gutter={20}>
-                    <Col span={12}>
-                        <Form.Item
-                            label="Бонус, (не требуется)"
-                            name="bonus"
-                        >
-                            <Input/>
-                        </Form.Item>
+                    {/*<Col span={12}>*/}
+                    {/*    <Form.Item*/}
+                    {/*        label="Бонус, (не требуется)"*/}
+                    {/*        name="bonus"*/}
+                    {/*    >*/}
+                    {/*        <Input/>*/}
+                    {/*    </Form.Item>*/}
 
-                    </Col>
-                    <Col span={12}>
+                    {/*</Col>*/}
+                    <Col span={24}>
                         <Form.Item
                             label="Включить комментарий, (не требуется)"
                             name="includeComment"
@@ -748,7 +765,7 @@ const OptionPostEdit = () => {
                                         </Form.Item>
 
                                         <MinusCircleOutlined
-                                            onClick={() => handleRemoveIncludes(field.name, remove, index + 1, editorFileList)}/>
+                                            onClick={() => handleRemoveIncludes(field.name, remove, index , editorFileList)}/>
                                     </div>
 
                                 );

@@ -31,7 +31,7 @@ const PostEditBanner = () => {
   const [deleteImage2, setDeleteImage2] = useState({});
   const [deleteImage3, setDeleteImage3] = useState({});
 
-  console.log(fileListProps3)
+
   // query-banner
   const {
     mutate: postBannerMutate,
@@ -102,7 +102,9 @@ const PostEditBanner = () => {
     if (editBannerSuccess && deleteImage3?.uid) {
       delImage.push(deleteImage3?.uid)
     }
-    if (editBannerSuccess && (deleteImage?.uid || deleteImage2?.uid || deleteImage3) && deleteImage.length>0 ) {
+
+
+    if (editBannerSuccess && (deleteImage?.uid || deleteImage2?.uid || deleteImage3?.uid) ) {
       const ids={
         ids:delImage
       }
@@ -189,7 +191,12 @@ const PostEditBanner = () => {
       imageLogo = fileListProps[0]?.uid;
     }
     if (editBannerSuccess && imagesUploadSuccess && fileListProps2[0]?.originFileObj?.uid) {
-      imageBrand = imagesUpload.length===3 ? imagesUpload[1]?._id : imagesUpload.length===2 ? imagesUpload[1]?._id : imagesUpload[0]?._id;
+      if (fileListProps3[0]?.originFileObj?.uid&& !fileListProps[0]?.originFileObj?.uid){
+      imageBrand =  imagesUpload[0]?._id;
+      }else{
+        imageBrand = imagesUpload.length===3 ? imagesUpload[1]?._id : imagesUpload.length===2 ? imagesUpload[1]?._id : imagesUpload[0]?._id;
+
+      }
     } else if (editBannerSuccess) {
       imageBrand = fileListProps2[0]?.uid;
     }
@@ -208,7 +215,6 @@ const PostEditBanner = () => {
       mediaBrandId:imageBrand,
       mediaVideoId:videoBanner
     };
-    console.log(data)
     if (imagesUploadSuccess && !editBannerSuccess) {
       postBannerMutate({url: '/banner', data});
     } else if (isNotEditImages || imagesUploadSuccess) {
@@ -230,7 +236,30 @@ const PostEditBanner = () => {
 
         setIsNotEditImages(false);
         // setFileList(fileListProps);
-      }else if (fileListProps[0]?.originFileObj?.uid) {
+      }else if (fileListProps[0]?.originFileObj?.uid && fileListProps2[0]?.originFileObj?.uid) {
+        uploadNewImage = true;
+        formData.append('media', fileListProps[0]?.originFileObj);
+        formData.append('media', fileListProps2[0]?.originFileObj);
+
+        setIsNotEditImages(false);
+        // setFileList(fileListProps);
+      }else if (fileListProps[0]?.originFileObj?.uid && fileListProps3[0]?.originFileObj?.uid) {
+        uploadNewImage = true;
+        formData.append('media', fileListProps[0]?.originFileObj);
+        formData.append('media', fileListProps3[0]?.originFileObj);
+
+        setIsNotEditImages(false);
+        // setFileList(fileListProps);
+      }
+      else if (fileListProps2[0]?.originFileObj?.uid && fileListProps3[0]?.originFileObj?.uid) {
+        uploadNewImage = true;
+        formData.append('media', fileListProps2[0]?.originFileObj);
+        formData.append('media', fileListProps3[0]?.originFileObj);
+
+        setIsNotEditImages(false);
+        // setFileList(fileListProps);
+      }
+      else if (fileListProps[0]?.originFileObj?.uid) {
         uploadNewImage = true;
         formData.append('media', fileListProps[0]?.originFileObj);
 
@@ -285,11 +314,13 @@ const PostEditBanner = () => {
 
   const handleRemoveImageLogo = (file) => {
     if (editBannerSuccess) {
+      // form.setFieldsValue({mediaLogoId:[]})
       setDeleteImage(file);
     }
   };
   const handleRemoveImageBrand = (file) => {
     if (editBannerSuccess) {
+      // form.setFieldsValue({mediaBrandId:[]})
       setDeleteImage2(file);
     }
   };
@@ -408,7 +439,7 @@ const PostEditBanner = () => {
             <Col span={24}>
               <Form.Item
                   label='Баннерное видео'
-                  name={'mediaBrandId'}
+                  name={'mediaVideoId'}
                   rules={[{required: true, message: 'Требуется видеобаннер'}]}>
 
                   <Upload

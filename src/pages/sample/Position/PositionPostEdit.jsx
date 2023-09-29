@@ -124,7 +124,6 @@ const PositionPostEdit = () => {
         },
     });
 
-    console.log(fileListProps)
     // get image position
     useEffect(() => {
         if (getPositionSuccess && positionDataImage.length > 0) {
@@ -253,7 +252,6 @@ const PositionPostEdit = () => {
             includedList: valuesForm.includedList,
             mediaId: image,
         };
-        console.log('render')
         if (imagesUploadSuccess && !editPositionSuccess) {
             postPositionMutate({url: '/position', data});
         } else if (isNotEditImages || imagesUploadSuccess) {

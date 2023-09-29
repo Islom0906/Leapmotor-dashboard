@@ -388,8 +388,11 @@ const PostEditAbout = () => {
     const onChangeMain = ({ fileList: newFileList }) => {
         form.setFieldsValue({ mainMediaId: newFileList });
         if (fileListPropsMain.length!==0 || newFileList.length === 0) {
-            const id = fileListPropsMain[0]?.uid;
-            imagesDeleteMutate({ url: "/medias", id });
+            const id = [fileListPropsMain[0]?.uid];
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({ url: "/medias", ids });
             setFileListPropsMain([])
         }
         const formData = new FormData();
@@ -405,8 +408,11 @@ const PostEditAbout = () => {
         setFileListPropsVideo(newFileList);
         form.setFieldsValue({ videoId: newFileList });
         if (fileListVideo.length!==0 || newFileList.length === 0) {
-            const id = fileListVideo[0]?._id;
-            imagesDeleteMutate({ url: "/medias", id });
+            const id = [fileListVideo[0]?._id];
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({ url: "/medias", ids });
             setFileListVideo([])
 
         }
@@ -422,8 +428,11 @@ const PostEditAbout = () => {
         // setFileListPropsResearch(newFileList);
         form.setFieldsValue({ researchMediaId: newFileList });
         if (fileListPropsResearch.length!==0 || newFileList.length === 0) {
-            const id = fileListPropsResearch[0]?.uid;
-            imagesDeleteMutate({ url: "/medias", id });
+            const id = [fileListPropsResearch[0]?.uid];
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({ url: "/medias", ids });
             setFileListPropsResearch([])
 
         }
@@ -439,8 +448,11 @@ const PostEditAbout = () => {
         setMainIndexTeam(index);
 
         if (fileListPropsTeam[index] || newFileList.length === 0) {
-            const id = fileListPropsTeam[index].uid;
-            imagesDeleteMutate({ url: "/medias", id });
+            const id = [fileListPropsTeam[index][0].uid];
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({ url: "/medias", ids });
             fileListPropsTeam[index] = null;
             setFileListPropsTeam(fileListPropsTeam);
 
@@ -458,8 +470,11 @@ const PostEditAbout = () => {
         setMainIndexResearch(index);
 
         if (fileListPropsSystem[index] || newFileList.length === 0) {
-            const id = fileListPropsSystem[index].uid;
-            imagesDeleteMutate({ url: "/medias", id });
+            const id = [fileListPropsSystem[index][0].uid];
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({ url: "/medias", ids });
             fileListPropsSystem[index] = null;
             setFileListPropsSystem(fileListPropsSystem);
 
@@ -476,10 +491,14 @@ const PostEditAbout = () => {
 
     const handleRemoveTeam = (name, remove, index,  editorFileList) => {
         if (editorFileList === fileListPropsTeam[index] && fileListPropsTeam.length>0) {
-            const id = fileListPropsTeam[index]?.mediaId?.uid;
+
+            const id = [fileListPropsTeam[index][0].uid];
+            const ids={
+                ids:id
+            }
             fileListPropsTeam.splice(index, 1);
             // fileListTeam.splice(index, 1);
-            imagesDeleteMutate({url: "/medias", id});
+            imagesDeleteMutate({url: "/medias", ids});
         }
         remove(name);
     };
@@ -487,10 +506,13 @@ const PostEditAbout = () => {
     const handleRemoveSystems = (name, remove, index, editorFileList) => {
 
         if (editorFileList === fileListPropsSystem[index]) {
-            const id = fileListPropsSystem[index]._id;
+            const id = [fileListPropsSystem[index][0].uid];
             fileListPropsSystem.splice(index, 1);
+            const ids={
+                ids:id
+            }
             // fileListSystem.splice(index, 1);
-            imagesDeleteMutate({url: "/medias", id});
+            imagesDeleteMutate({url: "/medias", ids});
         }
         remove(name);
     };

@@ -145,7 +145,6 @@ const NewsPostEdit = () => {
 
 
     useEffect(() => {
-        console.log(imagesUpload)
         const uploadFilesState = [...fileListBody];
         if (imagesUploadSuccess) {
             uploadFilesState[mainIndex] = imagesUpload[0];
@@ -188,7 +187,6 @@ const NewsPostEdit = () => {
         });
 
         if (editMapSuccess) {
-            console.log(data);
             const edit = {
                 titleUz: data?.titleUz,
                 titleRu: data?.titleRu,
@@ -227,7 +225,6 @@ const NewsPostEdit = () => {
             titleUz: values?.titleUz,
             titleRu: values?.titleRu
         };
-        console.log(data)
         if (editMapSuccess) {
             putMap({url: "/news", data, id: editMapData?._id});
         } else {
@@ -236,7 +233,6 @@ const NewsPostEdit = () => {
 
 
     }
-    console.log(fileListBody)
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
     };
@@ -244,18 +240,19 @@ const NewsPostEdit = () => {
 
     const handleRemove = (name, remove, index, editorStateUz, editorStateRu, editorFileList) => {
         if (editorStateUz === editorStatesUz[index]) {
-            console.log(editorStatesUz[index]);
             editorStatesUz.splice(index, 1);
         }
         if (editorStateRu === editorStatesRu[index]) {
-            console.log(editorStatesRu[index]);
             editorStatesRu.splice(index, 1);
         }
         if (editorFileList === fileListBodyProps[index]) {
-            const id = fileListBody[index]._id;
+            const id = [fileListBody[index]._id];
+            const ids={
+                ids:id
+            }
             fileListBodyProps.splice(index, 1);
             fileListBody.splice(index, 1);
-            imagesDeleteMutate({url: "/medias", id});
+            imagesDeleteMutate({url: "/medias", ids});
         }
         remove(name);
     };
@@ -301,7 +298,6 @@ const NewsPostEdit = () => {
 
     const onChangeBodyImage = (index, {fileList: newFileList}) => {
         setMainIndex(index);
-        console.log(index)
 
         const getValue = form.getFieldsValue();
         const itemsValue = getValue.description;
@@ -313,8 +309,11 @@ const NewsPostEdit = () => {
         setFileListBodyProps(updateImageStates);
 
         if (fileListBody[index] || newFileList.length === 0) {
-            const id = fileListBody[index]?._id;
-            imagesDeleteMutate({url: "/medias", id});
+            const id = [fileListBody[index]?._id];
+            const ids={
+                ids:id
+            }
+            imagesDeleteMutate({url: "/medias", ids});
             fileListBody[index] = null;
             setFileListBody(fileListBody);
 
