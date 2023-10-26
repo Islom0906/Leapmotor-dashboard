@@ -223,7 +223,7 @@ const PostEditFilialInner = () => {
                 }
             } else {
                 uploadNewImage = true;
-                formData.append('media', fileListProps[0]?.originFileObj);
+                formData.append('media', file?.originFileObj);
             }
 
         })
