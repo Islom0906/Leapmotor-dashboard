@@ -1,12 +1,12 @@
 import React from 'react';
-import {BsCarFrontFill, BsFillImageFill} from "react-icons/bs";
+import { BsFillImageFill} from "react-icons/bs";
 import {IoIosStats} from 'react-icons/io'
-import {FaBook, FaFileContract, FaMapMarkerAlt} from "react-icons/fa";
+import {FaBook, FaCity, FaFileContract, FaMapMarkerAlt} from "react-icons/fa";
 import {HiOutlineInbox} from "react-icons/hi";
 import {TiContacts} from "react-icons/ti";
 import {ImNewspaper} from "react-icons/im";
 // import {FiInfo} from "react-icons/fi";
-import {MdDriveEta} from "react-icons/md";
+import {MdDriveEta, MdLock} from "react-icons/md";
 import {FiInfo} from "react-icons/fi";
 
 
@@ -90,39 +90,39 @@ const routesConfig = [
         icon: <FiInfo />,
         path: '/about',
       },
-      {
-        id: 'order-car',
-        title: 'Order Car',
-        messageId: 'sidebar.order',
-        icon: <BsCarFrontFill />,
-        type: 'collapse',
-        children:[
-          {
-            id: 'Position',
-            title: 'Position',
-            messageId: 'sidebar.order.position',
-            path: '/position',
-          },
-          {
-            id: 'Exterior',
-            title: 'Exterior',
-            messageId: 'sidebar.order.exterior',
-            path: '/exterior',
-          },
-          {
-            id: 'Interior',
-            title: 'Interior',
-            messageId: 'sidebar.order.interior',
-            path: '/interior',
-          },
-          {
-            id: 'Option',
-            title: 'Option',
-            messageId: 'sidebar.order.option',
-            path: '/option',
-          },
-        ]
-      },
+      // {
+      //   id: 'order-car',
+      //   title: 'Order Car',
+      //   messageId: 'sidebar.order',
+      //   icon: <BsCarFrontFill />,
+      //   type: 'collapse',
+      //   children:[
+      //     {
+      //       id: 'Position',
+      //       title: 'Position',
+      //       messageId: 'sidebar.order.position',
+      //       path: '/position',
+      //     },
+      //     {
+      //       id: 'Exterior',
+      //       title: 'Exterior',
+      //       messageId: 'sidebar.order.exterior',
+      //       path: '/exterior',
+      //     },
+      //     {
+      //       id: 'Interior',
+      //       title: 'Interior',
+      //       messageId: 'sidebar.order.interior',
+      //       path: '/interior',
+      //     },
+      //     {
+      //       id: 'Option',
+      //       title: 'Option',
+      //       messageId: 'sidebar.order.option',
+      //       path: '/option',
+      //     },
+      //   ]
+      // },
       {
         id: 'order',
         title: 'Order',
@@ -130,6 +130,22 @@ const routesConfig = [
         type: 'item',
         icon: <FaBook />,
         path: '/order',
+      },
+      {
+        id: 'tgBot',
+        title: 'TgBot',
+        messageId: 'sidebar.sample.tgBot',
+        type: 'item',
+        icon: <MdLock />,
+        path: '/tgbot',
+      },
+      {
+        id: 'region',
+        title: 'Order',
+        messageId: 'sidebar.sample.region',
+        type: 'item',
+        icon: <FaCity />,
+        path: '/region',
       },
       {
         id: 'testDrive',

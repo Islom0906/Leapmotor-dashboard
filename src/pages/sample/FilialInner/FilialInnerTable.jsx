@@ -35,7 +35,6 @@ const FilialInnerTable = ({data,deleteHandle}) => {
             dataIndex: 'images',
             id: 'images',
             render: (image) => {
-                console.log(image)
                 return (
                     <Image
                         width={50}

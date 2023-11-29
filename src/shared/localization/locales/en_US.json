@@ -644,6 +644,8 @@
   "sidebar.order.option": "Option",
   "sidebar.sample.service": "Service",
   "sidebar.sample.testDrive": "Test Drive",
+  "sidebar.sample.region": "Region",
+  "sidebar.sample.tgBot": "Tg Bot permission",
   "sidebar.sample.order": "Order",
   "sidebar.sample.dealers": "Dealers",
   "customizer.layoutTypes": "Layout Types",
