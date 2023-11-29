@@ -15,7 +15,8 @@ const initialValueForm = {
     addressUz:"",
     workingTime:"",
     tel:"",
-    lat:""
+    lat:"",
+    link:""
 };
 
 
@@ -34,6 +35,9 @@ const MapPostEdit = () => {
 
 
     const [latLng, setlatLng] = useState({lat:null,lng:null});
+    const [defaultCenter, setDefaultCenter] = useState({lat: 41.311785,
+        lng: 69.279696,});
+
     // query-map
     const {
         mutate: postMapMutate,
@@ -127,7 +131,8 @@ const MapPostEdit = () => {
             addressUz:editMapData.addressUz,
             workingTime:editMapData.workingTime,
             tel:editMapData.tel,
-            lat:editMapData.lat
+            lat:editMapData.lat,
+            link:editMapData.link
         }
         setlatLng({lat:Number(editMapData.lat),lng:Number(editMapData.lng)})
             form.setFieldsValue(edit)
@@ -192,6 +197,7 @@ const MapPostEdit = () => {
             lat: event.latLng.lat(),
             lng: event?.latLng.lng(),
         };
+        setDefaultCenter(clickedLatLng)
         setlatLng(clickedLatLng)
         form.setFieldsValue({lat:clickedLatLng.lat})
     };
@@ -199,10 +205,7 @@ const MapPostEdit = () => {
         height: '400px',
         width: '100%',
     };
-    const defaultCenter = {
-        lat: 41.311785,
-        lng: 69.279696,
-    };
+
 
     return (
         <div>
@@ -316,6 +319,21 @@ const MapPostEdit = () => {
                                     {
                                         required: true,
                                         message: "Требуется номер телефона!"
+                                    }
+                                ]}
+                            >
+                                <Input/>
+                            </Form.Item>
+
+                        </Col>
+                        <Col span={24}>
+                            <Form.Item
+                                label="Ссылка на сайт"
+                                name="link"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Требуется cсылка на сайт!"
                                     }
                                 ]}
                             >
