@@ -17,14 +17,14 @@ const News = React.lazy(() => import('./News'));
 const NewsPostEdit = React.lazy(() => import('./News/NewsPostEdit'));
 const About = React.lazy(() => import('./About'));
 const AboutPostEdit = React.lazy(() => import('./About/PostEditAbout'));
-// const Position = React.lazy(() => import('./Position'));
-// const PostEditPosition = React.lazy(() => import('./Position/PositionPostEdit'));
-// const Exterior = React.lazy(() => import('./Exterior'));
-// const PostEditExterior = React.lazy(() => import('./Exterior/ExteriorPostEdit'));
-// const Interior = React.lazy(() => import('./Interior'));
-// const PostEditInterior = React.lazy(() => import('./Interior/InteriorPostEdit'));
-// const Option = React.lazy(() => import('./Option'));
-// const PostEditOption = React.lazy(() => import('./Option/OptionPostEdit'));
+const Position = React.lazy(() => import('./Position'));
+const PostEditPosition = React.lazy(() => import('./Position/PositionPostEdit'));
+const Exterior = React.lazy(() => import('./Exterior'));
+const PostEditExterior = React.lazy(() => import('./Exterior/ExteriorPostEdit'));
+const Interior = React.lazy(() => import('./Interior'));
+const PostEditInterior = React.lazy(() => import('./Interior/InteriorPostEdit'));
+const Option = React.lazy(() => import('./Option'));
+const PostEditOption = React.lazy(() => import('./Option/OptionPostEdit'));
 const TestDrive = React.lazy(() => import('./TestDrive'));
 const Dealers = React.lazy(() => import('./Dealers'));
 const Dashboard = React.lazy(() => import('./Dashboard'));
@@ -138,46 +138,46 @@ export const samplePagesConfigs = [
     path: '/about',
     element: <About />,
   },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/position/add',
-  //   element: <PostEditPosition />,
-  // },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/position',
-  //   element: <Position />,
-  // },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/exterior/add',
-  //   element: <PostEditExterior />,
-  // },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/exterior',
-  //   element: <Exterior />,
-  // },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/interior/add',
-  //   element: <PostEditInterior />,
-  // },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/interior',
-  //   element: <Interior />,
-  // },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/option/add',
-  //   element: <PostEditOption />,
-  // },
-  // {
-  //   permittedRole: RoutePermittedRole.user,
-  //   path: '/option',
-  //   element: <Option />,
-  // },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/position/add',
+    element: <PostEditPosition />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/position',
+    element: <Position />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/exterior/add',
+    element: <PostEditExterior />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/exterior',
+    element: <Exterior />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/interior/add',
+    element: <PostEditInterior />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/interior',
+    element: <Interior />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/option/add',
+    element: <PostEditOption />,
+  },
+  {
+    permittedRole: RoutePermittedRole.user,
+    path: '/option',
+    element: <Option />,
+  },
   {
     permittedRole: RoutePermittedRole.user,
     path: '/region/add',

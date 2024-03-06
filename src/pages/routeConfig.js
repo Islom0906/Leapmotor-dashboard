@@ -1,5 +1,5 @@
 import React from 'react';
-import { BsFillImageFill} from "react-icons/bs";
+import { BsFillImageFill,BsCarFrontFill} from "react-icons/bs";
 import {IoIosStats} from 'react-icons/io'
 import {FaBook, FaCity, FaFileContract, FaMapMarkerAlt} from "react-icons/fa";
 import {HiOutlineInbox} from "react-icons/hi";
@@ -90,39 +90,39 @@ const routesConfig = [
         icon: <FiInfo />,
         path: '/about',
       },
-      // {
-      //   id: 'order-car',
-      //   title: 'Order Car',
-      //   messageId: 'sidebar.order',
-      //   icon: <BsCarFrontFill />,
-      //   type: 'collapse',
-      //   children:[
-      //     {
-      //       id: 'Position',
-      //       title: 'Position',
-      //       messageId: 'sidebar.order.position',
-      //       path: '/position',
-      //     },
-      //     {
-      //       id: 'Exterior',
-      //       title: 'Exterior',
-      //       messageId: 'sidebar.order.exterior',
-      //       path: '/exterior',
-      //     },
-      //     {
-      //       id: 'Interior',
-      //       title: 'Interior',
-      //       messageId: 'sidebar.order.interior',
-      //       path: '/interior',
-      //     },
-      //     {
-      //       id: 'Option',
-      //       title: 'Option',
-      //       messageId: 'sidebar.order.option',
-      //       path: '/option',
-      //     },
-      //   ]
-      // },
+      {
+        id: 'order-car',
+        title: 'Order Car',
+        messageId: 'sidebar.order',
+        icon: <BsCarFrontFill />,
+        type: 'collapse',
+        children:[
+          {
+            id: 'Position',
+            title: 'Position',
+            messageId: 'sidebar.order.position',
+            path: '/position',
+          },
+          {
+            id: 'Exterior',
+            title: 'Exterior',
+            messageId: 'sidebar.order.exterior',
+            path: '/exterior',
+          },
+          {
+            id: 'Interior',
+            title: 'Interior',
+            messageId: 'sidebar.order.interior',
+            path: '/interior',
+          },
+          {
+            id: 'Option',
+            title: 'Option',
+            messageId: 'sidebar.order.option',
+            path: '/option',
+          },
+        ]
+      },
       {
         id: 'order',
         title: 'Order',
