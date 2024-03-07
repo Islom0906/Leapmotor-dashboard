@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {EDIT_DATA} from "../../../shared/constants/ActionTypes";
 
-import ImgCrop from "antd-img-crop";
+// import ImgCrop from "antd-img-crop";
 
 const initialValueForm = {
     model: "",
@@ -536,7 +536,7 @@ const InteriorPostEdit = () => {
                                 label='Изображение баннер'
                                 name={'mediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения баннер'}]}>
-                                <ImgCrop>
+                                {/*<ImgCrop>*/}
                                     <Upload
                                         maxCount={1}
                                         fileList={fileListProps}
@@ -547,7 +547,7 @@ const InteriorPostEdit = () => {
                                         onRemove={handleRemoveBanner}>
                                         {fileListProps.length > 0 ? "" : "Upload"}
                                     </Upload>
-                                </ImgCrop>
+                                {/*</ImgCrop>*/}
                             </Form.Item>
                         </Col>
                         <Col span={12}>
@@ -555,7 +555,7 @@ const InteriorPostEdit = () => {
                                 label='Изображение цвет'
                                 name={'colorMediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения цвет'}]}>
-                                <ImgCrop>
+                                {/*<ImgCrop>*/}
                                     <Upload
                                         maxCount={1}
                                         fileList={fileListProps2}
@@ -566,7 +566,7 @@ const InteriorPostEdit = () => {
                                         onRemove={handleRemoveColorImage}>
                                         {fileListProps2.length > 0 ? "" : "Upload"}
                                     </Upload>
-                                </ImgCrop>
+                                {/*</ImgCrop>*/}
                             </Form.Item>
                         </Col>
                     </Row>

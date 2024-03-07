@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {EDIT_DATA} from "../../../shared/constants/ActionTypes";
 
-import ImgCrop from "antd-img-crop";
+// import ImgCrop from "antd-img-crop";
 
 const initialValueForm = {
     model: "",
@@ -243,7 +243,6 @@ const ExteriorPostEdit = () => {
             colorMediaId: imageColor,
             mediaId: image,
         };
-        console.log('render')
         if (imagesUploadSuccess && !editExteriorSuccess) {
             postExteriorMutate({url: '/exterior', data});
         } else if (isNotEditImages || imagesUploadSuccess) {
@@ -492,7 +491,7 @@ const ExteriorPostEdit = () => {
                                 label='Изображение баннер'
                                 name={'mediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения баннер'}]}>
-                                <ImgCrop>
+                                {/*<ImgCrop >*/}
                                     <Upload
                                         maxCount={1}
                                         fileList={fileListProps}
@@ -500,10 +499,11 @@ const ExteriorPostEdit = () => {
                                         onChange={onChangeBanner}
                                         onPreview={onPreview}
                                         beforeUpload={() => false}
-                                        onRemove={handleRemoveBanner}>
+                                        onRemove={handleRemoveBanner}
+                                    >
                                         {fileListProps.length > 0 ? "" : "Upload"}
                                     </Upload>
-                                </ImgCrop>
+                                {/*</ImgCrop>*/}
                             </Form.Item>
                         </Col>
                         <Col span={12}>
@@ -511,18 +511,18 @@ const ExteriorPostEdit = () => {
                                 label='Изображение цвет'
                                 name={'colorMediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения цвет'}]}>
-                                <ImgCrop>
+                                {/*<ImgCrop>*/}
                                     <Upload
                                         maxCount={1}
-                                        fileList={fileListProps2}
                                         listType='picture-card'
+                                        fileList={fileListProps2}
                                         onChange={onChangeColorImage}
                                         onPreview={onPreview}
                                         beforeUpload={() => false}
                                         onRemove={handleRemoveColorImage}>
                                         {fileListProps2.length > 0 ? "" : "Upload"}
                                     </Upload>
-                                </ImgCrop>
+                                {/*</ImgCrop>*/}
                             </Form.Item>
                         </Col>
                     </Row>

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Form, Input, message, Row, Upload} from 'antd';
-import ImgCrop from 'antd-img-crop';
+// import ImgCrop from 'antd-img-crop';
 import {useMutation, useQuery} from 'react-query';
 import apiService from '../../../@crema/services/apis/api';
 import {AppLoader} from '../../../@crema';
@@ -317,7 +317,7 @@ const PostEditFilial = () => {
                   label='Изображение логотипа'
                   name={'mediaId'}
                   rules={[{required: true, message: 'Требуется загрузка изображения логотипа'}]}>
-                <ImgCrop rotationSlider>
+                {/*<ImgCrop rotationSlider>*/}
                   <Upload
                       maxCount={1}
                       fileList={fileListProps}
@@ -328,7 +328,7 @@ const PostEditFilial = () => {
                       onRemove={handleRemoveImage}>
                     {fileListProps.length>0 ? "" : "Upload"}
                   </Upload>
-                </ImgCrop>
+                {/*</ImgCrop>*/}
               </Form.Item>
             </Col>
 

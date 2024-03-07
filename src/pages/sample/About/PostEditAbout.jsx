@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Form, Input, message, Row,  Upload,Typography} from 'antd';
-import ImgCrop from 'antd-img-crop';
+// import ImgCrop from 'antd-img-crop';
 import {useMutation, useQuery} from 'react-query';
 import apiService from '../../../@crema/services/apis/api';
 import {AppLoader} from '../../../@crema';
@@ -617,7 +617,7 @@ const PostEditAbout = () => {
                                 label='Изображение'
                                 name={'mainMediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения '}]}>
-                                <ImgCrop rotate>
+                                {/*<ImgCrop rotate>*/}
                                     <Upload
                                         maxCount={1}
                                         fileList={fileListPropsMain}
@@ -628,7 +628,7 @@ const PostEditAbout = () => {
                                     >
                                         {fileListPropsMain.length > 0 ? "" : "Upload"}
                                     </Upload>
-                                </ImgCrop>
+                                {/*</ImgCrop>*/}
                             </Form.Item>
                         </Col>
 
@@ -764,7 +764,7 @@ const PostEditAbout = () => {
                                                     }
                                                 ]}
                                             >
-                                                <ImgCrop rotate>
+                                                {/*<ImgCrop rotate>*/}
                                                     <Upload
                                                         maxCount={1}
                                                         listType="picture-card"
@@ -775,7 +775,7 @@ const PostEditAbout = () => {
                                                     >
                                                         {editorFileList.length < 1 && "+ Upload"}
                                                     </Upload>
-                                                </ImgCrop>
+                                                {/*</ImgCrop>*/}
                                             </Form.Item>
 
                                             <MinusCircleOutlined
@@ -858,7 +858,7 @@ const PostEditAbout = () => {
                                 label='Изображение'
                                 name={'researchMediaId'}
                                 rules={[{required: true, message: 'Требуется загрузка изображения '}]}>
-                                <ImgCrop rotate>
+                                {/*<ImgCrop rotate>*/}
                                     <Upload
                                         maxCount={1}
                                         fileList={fileListPropsResearch}
@@ -868,7 +868,7 @@ const PostEditAbout = () => {
                                         beforeUpload={() => false}>
                                         {fileListPropsResearch.length > 0 ? "" : "Upload"}
                                     </Upload>
-                                </ImgCrop>
+                                {/*</ImgCrop>*/}
                             </Form.Item>
                         </Col>
 
@@ -982,7 +982,7 @@ const PostEditAbout = () => {
                                                     }
                                                 ]}
                                             >
-                                                <ImgCrop rotate>
+                                                {/*<ImgCrop rotate>*/}
                                                     <Upload
                                                         maxCount={1}
                                                         listType="picture-card"
@@ -993,7 +993,7 @@ const PostEditAbout = () => {
                                                     >
                                                         {editorFileList.length < 1 && "+ Upload"}
                                                     </Upload>
-                                                </ImgCrop>
+                                                {/*</ImgCrop>*/}
                                             </Form.Item>
 
                                             <MinusCircleOutlined

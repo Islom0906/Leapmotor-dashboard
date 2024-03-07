@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Form, Input, message, Row, Upload} from 'antd';
-import ImgCrop from 'antd-img-crop';
+// import ImgCrop from 'antd-img-crop';
 import {useMutation, useQuery} from 'react-query';
 import apiService from '../../../@crema/services/apis/api';
 import {AppLoader} from '../../../@crema';
@@ -378,7 +378,7 @@ const PostEditProduct = () => {
                   label='Изображение логотипа'
                   name={'mediaLogoId'}
                   rules={[{required: true, message: 'Требуется загрузка изображения логотипа'}]}>
-                <ImgCrop>
+                {/*<ImgCrop>*/}
                   <Upload
                       maxCount={1}
                       fileList={fileListProps}
@@ -389,7 +389,7 @@ const PostEditProduct = () => {
                       onRemove={handleRemoveImageLogo}>
                     {fileListProps.length>0 ? "" : "Upload"}
                   </Upload>
-                </ImgCrop>
+                {/*</ImgCrop>*/}
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -397,7 +397,7 @@ const PostEditProduct = () => {
                   label='Изображение баннера'
                   name={'mediaBannerId'}
                   rules={[{required: true, message: 'Требуется загрузка изображения баннера'}]}>
-                <ImgCrop rotate>
+                {/*<ImgCrop rotate>*/}
                   <Upload
                       maxCount={1}
                       fileList={fileListProps2}
@@ -408,7 +408,7 @@ const PostEditProduct = () => {
                       onRemove={handleRemoveImageBanner}>
                     {fileListProps2.length>0 ? "" : "Upload"}
                   </Upload>
-                </ImgCrop>
+                {/*</ImgCrop>*/}
               </Form.Item>
             </Col>
           </Row>

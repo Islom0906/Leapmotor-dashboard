@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {EDIT_DATA} from "../../../shared/constants/ActionTypes";
 
 import {MinusCircleOutlined} from "@ant-design/icons";
-import ImgCrop from "antd-img-crop";
+// import ImgCrop from "antd-img-crop";
 
 const initialValueForm = {
     model: null,
@@ -495,7 +495,7 @@ const PositionPostEdit = () => {
                         label='Изображение логотипа'
                         name={'mediaId'}
                         rules={[{required: true, message: 'Требуется загрузка изображения баннер'}]}>
-                        <ImgCrop>
+                        {/*<ImgCrop>*/}
                             <Upload
                                 maxCount={1}
                                 fileList={fileListProps}
@@ -506,7 +506,7 @@ const PositionPostEdit = () => {
                                 onRemove={handleRemove}>
                                 {fileListProps.length > 0 ? "" : "Upload"}
                             </Upload>
-                        </ImgCrop>
+                        {/*</ImgCrop>*/}
                     </Form.Item>
 
 

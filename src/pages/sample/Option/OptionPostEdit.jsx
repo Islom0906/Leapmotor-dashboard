@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {EDIT_DATA} from "../../../shared/constants/ActionTypes";
 
-import ImgCrop from "antd-img-crop";
+// import ImgCrop from "antd-img-crop";
 import {MinusCircleOutlined} from "@ant-design/icons";
 
 const initialValueForm = {
@@ -675,7 +675,7 @@ const OptionPostEdit = () => {
                             label='Изображение баннер'
                             name={'bannerMediaId'}
                             rules={[{required: true, message: 'Требуется загрузка изображения баннер'}]}>
-                            <ImgCrop>
+                            {/*<ImgCrop>*/}
                                 <Upload
                                     maxCount={1}
                                     fileList={fileListPropsBanner}
@@ -686,7 +686,7 @@ const OptionPostEdit = () => {
                                 >
                                     {fileListPropsBanner.length > 0 ? "" : "Upload"}
                                 </Upload>
-                            </ImgCrop>
+                            {/*</ImgCrop>*/}
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -694,7 +694,7 @@ const OptionPostEdit = () => {
                             label='Изображение основной'
                             name={'mainMediaId'}
                             rules={[{required: true, message: 'Требуется загрузка изображения основной'}]}>
-                            <ImgCrop>
+                            {/*<ImgCrop>*/}
                                 <Upload
                                     maxCount={1}
                                     fileList={fileListPropsMain}
@@ -705,7 +705,7 @@ const OptionPostEdit = () => {
                                 >
                                     {fileListPropsMain.length > 0 ? "" : "Upload"}
                                 </Upload>
-                            </ImgCrop>
+                            {/*</ImgCrop>*/}
                         </Form.Item>
                     </Col>
                 </Row>
@@ -750,7 +750,7 @@ const OptionPostEdit = () => {
                                             name={[field.name, "mediaId"]}
 
                                         >
-                                            <ImgCrop rotate>
+                                            {/*<ImgCrop rotate>*/}
                                                 <Upload
                                                     maxCount={1}
                                                     listType="picture-card"
@@ -761,7 +761,7 @@ const OptionPostEdit = () => {
                                                 >
                                                     {editorFileList.length < 1 && "+ Upload"}
                                                 </Upload>
-                                            </ImgCrop>
+                                            {/*</ImgCrop>*/}
                                         </Form.Item>
 
                                         <MinusCircleOutlined
