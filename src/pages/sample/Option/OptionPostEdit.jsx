@@ -259,7 +259,7 @@ const OptionPostEdit = () => {
             let isImage = ""
             let splitTags;
             if (fileListPropsIncludes.length > 0) {
-                if (fileListPropsIncludes[i] === null || fileListPropsIncludes[i]?.length < 1) {
+                if (fileListPropsIncludes[i] === null || fileListPropsIncludes[i]?.length < 1||!fileListPropsIncludes[i]) {
                     isImage = ""
                 } else {
                     isImage = fileListPropsIncludes[i][0]?.uid
@@ -276,7 +276,6 @@ const OptionPostEdit = () => {
             };
             includes.push(item);
         }
-
 
         const data = {
             model: values.model,
@@ -488,9 +487,6 @@ const OptionPostEdit = () => {
 
     // handleRemoveIncludes
     const handleRemoveIncludes = (name, remove, index, editorFileList) => {
-        console.log(index)
-            console.log(editorFileList)
-            console.log(fileListPropsIncludes)
         if (editorFileList === fileListPropsIncludes[index] && fileListPropsIncludes.length > 0) {
             const id = [fileListPropsIncludes[index][0]?.uid];
             fileListPropsIncludes.splice(index, 1);
